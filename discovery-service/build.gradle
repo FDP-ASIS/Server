@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'il.ac.afeka'
+group = 'il.ac.afeka.fdp'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
