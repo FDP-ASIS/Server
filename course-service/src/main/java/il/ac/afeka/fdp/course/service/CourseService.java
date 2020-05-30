@@ -1,8 +1,6 @@
 package il.ac.afeka.fdp.course.service;
 
 import il.ac.afeka.fdp.course.model.Course;
-import il.ac.afeka.fdp.course.model.CourseBoundary;
-import il.ac.afeka.fdp.course.model.Department;
 
 import java.util.List;
 

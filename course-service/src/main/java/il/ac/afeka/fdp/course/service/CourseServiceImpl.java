@@ -1,7 +1,6 @@
 package il.ac.afeka.fdp.course.service;
 
 import il.ac.afeka.fdp.course.crud.CourseCrud;
-import il.ac.afeka.fdp.course.exceptions.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.CourseAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.CourseNotFoundException;
 import il.ac.afeka.fdp.course.model.Course;
