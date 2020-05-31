@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'fdp-asis-server'
+
+include 'course-service'
+include 'discovery-service'
+include 'software-service'
+include 'user-service'

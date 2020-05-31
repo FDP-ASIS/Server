@@ -1,0 +1,64 @@
+buildscript {
+    ext {
+        springBootVersion = '2.3.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'il.ac.afeka.fdp'
+    version = '0.0.1'
+    sourceCompatibility = '11'
+
+    repositories {
+        mavenCentral()
+    }
+
+    ext {
+        swaggerVersion = '2.9.2'
+        set('springCloudVersion', "Hoxton.SR4")
+    }
+
+    configurations {
+        developmentOnly
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+        implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok'
+//        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
