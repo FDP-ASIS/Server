@@ -9,7 +9,7 @@ public interface FinalStrings {
     String CREATE_BAD_REQUEST = "Could not create the software, please verify that all the required parameters are filled correctly"; // code 400
     String BAD_INPUT = "Bad request property input"; // code 400
     String UNAUTHORIZED = "Unauthorized, you can not allowed to do this"; // code 401
-    String NO_SOFTWARE_FOUND = "Software not found: "; // code 404
+    String NO_SOFTWARE_FOUND = "Software with softwareName not found: "; // code 404
     String SOFTWARE_EXISTS = "Failed to create, software with this name already exists: "; // code 409
     String SERVER_ERROR = "Internal server errors"; // code 500
 }
