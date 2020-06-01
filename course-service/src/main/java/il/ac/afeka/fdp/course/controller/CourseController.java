@@ -139,7 +139,8 @@ public class CourseController {
      */
     @ApiOperation(
             value = "Edit course details by course code",
-            notes = "Edit this course in database")
+            notes = "Edit this course in database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_EDITED),
@@ -163,7 +164,8 @@ public class CourseController {
      */
     @ApiOperation(
             value = "Delete specific course by course code",
-            notes = "Remove this course from the database")
+            notes = "Remove this course from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_DELETED),
@@ -185,7 +187,8 @@ public class CourseController {
      */
     @ApiOperation(
             value = "Delete all courses",
-            notes = "Delete courses from the database")
+            notes = "Delete courses from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.COURSES_DELETED),

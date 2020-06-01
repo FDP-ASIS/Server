@@ -44,7 +44,7 @@ public class SoftwareController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR) })
 
     @RequestMapping(
-            path = "/course",
+            path = "/software",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -135,7 +135,8 @@ public class SoftwareController {
      */
     @ApiOperation(
             value = "Edit software details by software name",
-            notes = "Edit this software in database")
+            notes = "Edit this software in database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_SOFTWARE_EDITED),
@@ -159,7 +160,8 @@ public class SoftwareController {
      */
     @ApiOperation(
             value = "Delete specific software by software name",
-            notes = "Remove this software from the database")
+            notes = "Remove this software from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_SOFTWARE_DELETED),
@@ -181,7 +183,8 @@ public class SoftwareController {
      */
     @ApiOperation(
             value = "Delete all software",
-            notes = "Delete software from the database")
+            notes = "Delete software from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.SOFTWARE_DELETED),
@@ -189,7 +192,7 @@ public class SoftwareController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @RequestMapping(
-            path = "/course",
+            path = "/software",
             method = RequestMethod.DELETE)
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteAll() {
