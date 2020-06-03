@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: "User service"
+  output:
+    ansi:
+      enabled: ALWAYS
+
+server:
+  port: 8081
+
+# --- Swagger --- #
+swagger:
+  meta:
+    description: "Documentation API of user service"
+    contact:
+      name: "FDP ASIS"
+      url: "https://github.com/FDP-ASIS"
+      email: "finalprojectafeka2020@gmail.com"
+    license:
+        name: "Afeka license"
+        url: ""
+    version: "1.0.0"
