@@ -1,22 +1,41 @@
+server:
+  port: 8081
+
 spring:
   application:
-    name: "User service"
+    name: User service
   output:
     ansi:
       enabled: ALWAYS
 
-server:
-  port: 8081
+  # --- MongoDB --- #
+  data:
+    mongodb:
+      database: Users
+      host: localhost
+      port: 27017
+
+  profiles:
+    acrive:
+      - dev
+      - default
+
+# --- Logger --- #
+logging:
+  level:
+    org.springframework.web.bind.annotation.RequestMapping: trace
 
 # --- Swagger --- #
 swagger:
   meta:
-    description: "Documentation API of user service"
+    description: Documentation API of user service
     contact:
-      name: "FDP ASIS"
-      url: "https://github.com/FDP-ASIS"
-      email: "finalprojectafeka2020@gmail.com"
+      name: FDP ASIS
+      url: https://github.com/FDP-ASIS
+      email: finalprojectafeka2020@gmail.com
     license:
-        name: "Afeka license"
+        name: Afeka license
         url: ""
-    version: "1.0.0"
+    version: 1.0.0
+
+
