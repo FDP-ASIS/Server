@@ -20,6 +20,10 @@ spring:
       - dev
       - default
 
+  devtools:
+    restart:
+      poll-interval: 1s
+
 # --- Logger --- #
 logging:
   level:
