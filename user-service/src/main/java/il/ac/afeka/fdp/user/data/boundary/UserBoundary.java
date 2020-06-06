@@ -35,4 +35,8 @@ public class UserBoundary {
     public UserEntity convertToEntity() {
         return UserEntity.of(id, username, name, email);
     }
+
+    public UserEntity convertToEntity(String id) {
+        return UserEntity.of(id, username, name, email);
+    }
 }

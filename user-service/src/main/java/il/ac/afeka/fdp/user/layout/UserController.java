@@ -1,9 +1,38 @@
 package il.ac.afeka.fdp.user.layout;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import il.ac.afeka.fdp.user.data.boundary.PasswordBoundary;
+import il.ac.afeka.fdp.user.data.boundary.UserBoundary;
+import il.ac.afeka.fdp.user.infra.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     *
+     * @param id user's id need to change password
+     * @param password need password to change
+     * @return user
+     */
+    @ApiOperation(value = "Update user password by id", nickname = "updateUserPassword")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "User not found"),
+    })
+    @PatchMapping(value = "/{id}", name = "Update user password by id")
+    UserBoundary updateUserPasswordById(
+            @PathVariable(value = "id") String id,
+            @RequestBody PasswordBoundary password) {
+        return new UserBoundary(this.userService.updateUserPasswordById(id, password.getPassword()));
+    }
 }
