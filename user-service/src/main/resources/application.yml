@@ -27,7 +27,7 @@ spring:
 # --- Logger --- #
 logging:
   level:
-    org.springframework.web.bind.annotation.RequestMapping: trace
+    org.springframework.web.servlet.mvc.method.annotation: trace
 
 # --- Swagger --- #
 swagger:
