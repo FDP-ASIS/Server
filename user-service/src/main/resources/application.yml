@@ -9,23 +9,23 @@ spring:
     ansi:
       enabled: ALWAYS
 
+  profiles:
+    acrive:
+        - dev
+        - default
+
+  devtools:
+    restart:
+      poll-interval: 1s
+
   # --- MongoDB --- #
   data:
     mongodb:
       database: Users
       host: localhost
       port: 27017
-#      username: ""
-#      password: ""
-
-  profiles:
-    acrive:
-      - dev
-      - default
-
-  devtools:
-    restart:
-      poll-interval: 1s
+      #      username: ""
+      #      password: ""
 
 # --- Logger --- #
 logging:

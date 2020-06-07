@@ -1,9 +1,10 @@
+# --- CONFIGURATIONS --- #
 server:
-  port: 8080
+  port: 8082
 
 spring:
   application:
-    name: auth-service
+    name: course-service
 
   output:
     ansi:
@@ -27,15 +28,10 @@ spring:
 #      username: ""
 #      password: ""
 
-# --- Logger --- #
-logging:
-  level:
-    org.springframework.web.servlet.mvc.method.annotation: trace
-
 # --- Swagger --- #
 swagger:
   meta:
-    description: Documentation API of auth service
+    description: Documentation API of course service
     contact:
       name: FDP ASIS
       url: https://github.com/FDP-ASIS
@@ -45,8 +41,7 @@ swagger:
       url: ""
     version: 1.0.0
 
-# --- Eureka --- #
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+# --- Logger --- #
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation: trace
