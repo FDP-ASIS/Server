@@ -1,0 +1,52 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: auth-service
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  # --- MongoDB --- #
+  data:
+    mongodb:
+      database: Users
+      host: localhost
+      port: 27017
+#      username: ""
+#      password: ""
+
+  profiles:
+    acrive:
+      - dev
+      - default
+
+  devtools:
+    restart:
+      poll-interval: 1s
+
+# --- Logger --- #
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation: trace
+
+# --- Swagger --- #
+swagger:
+  meta:
+    description: Documentation API of auth service
+    contact:
+      name: FDP ASIS
+      url: https://github.com/FDP-ASIS
+      email: finalprojectafeka2020@gmail.com
+    license:
+      name: Afeka license
+      url: ""
+    version: 1.0.0
+
+# --- Eureka --- #
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

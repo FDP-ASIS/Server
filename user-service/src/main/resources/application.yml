@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: user-service
+
   output:
     ansi:
       enabled: ALWAYS
@@ -14,6 +15,8 @@ spring:
       database: Users
       host: localhost
       port: 27017
+#      username: ""
+#      password: ""
 
   profiles:
     acrive:

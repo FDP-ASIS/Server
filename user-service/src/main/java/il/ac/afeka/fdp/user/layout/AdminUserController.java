@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class AdminUserController {
             @ApiResponse(code = 409, message = "Conflict user/s already exists"),
     })
     @PostMapping(value = "/signup/{role}", name = "sign up users by admin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     List<UserBoundary> signUp(
             @PathVariable(value = "role", required = false) UserRoleEnum role,
             @RequestBody List<UserBoundary> boundaries) {

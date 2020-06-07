@@ -18,6 +18,10 @@ zuul:
   prefix: /api
   ignored-services: "*"
   routes:
+    auth-service:
+      path: /auth/**
+      serviceId: auth-service
+      stripPrefix: false
     user-service:
       path: /user/**
       serviceId: user-service
