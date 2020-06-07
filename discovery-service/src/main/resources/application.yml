@@ -1,16 +1,16 @@
 server:
   port: 8761
 
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
 eureka:
   instance:
     hostname: localhost
   client:
     registerWithEureka: false
     fetchRegistry: false
-    serviceUrl:
+    service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-
-spring:
-  output:
-    ansi:
-      enabled: ALWAYS
