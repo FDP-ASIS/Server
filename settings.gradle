@@ -5,8 +5,11 @@ pluginManagement {
 }
 rootProject.name = 'fdp-asis-server'
 
-include 'course-service'
+include 'gateway-service'
 include 'discovery-service'
+
+include 'auth-service'
+
+include 'course-service'
 include 'software-service'
 include 'user-service'
-include 'gateway-service'
