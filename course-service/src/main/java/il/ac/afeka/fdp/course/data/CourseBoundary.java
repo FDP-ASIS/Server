@@ -1,14 +1,10 @@
-package il.ac.afeka.fdp.course.model;
+package il.ac.afeka.fdp.course.data;
 
 import lombok.Data;
 import lombok.NonNull;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "courses")
-public class Course {
-    @Id
+public class CourseBoundary {
     private String id;
     @NonNull
     private String courseName;
@@ -19,10 +15,11 @@ public class Course {
     @NonNull
     private String softwareList;
 
-    public Course() {
+    public CourseBoundary() {
+        super();
     }
 
-    public Course(String courseName, String courseCode, Department department, String softwareList) {
+    public CourseBoundary(String courseName, String courseCode, Department department,String softwareList) {
         super();
         this.courseName = courseName;
         this.courseCode = courseCode;

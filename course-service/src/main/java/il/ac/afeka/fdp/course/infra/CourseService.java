@@ -1,6 +1,6 @@
-package il.ac.afeka.fdp.course.service;
+package il.ac.afeka.fdp.course.infra;
 
-import il.ac.afeka.fdp.course.model.Course;
+import il.ac.afeka.fdp.course.data.Course;
 
 import java.util.List;
 

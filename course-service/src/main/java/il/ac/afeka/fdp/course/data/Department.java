@@ -1,4 +1,4 @@
-package il.ac.afeka.fdp.course.model;
+package il.ac.afeka.fdp.course.data;
 
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 

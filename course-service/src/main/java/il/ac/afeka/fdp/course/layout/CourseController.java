@@ -1,9 +1,9 @@
-package il.ac.afeka.fdp.course.controller;
+package il.ac.afeka.fdp.course.layout;
 
 import il.ac.afeka.fdp.course.exceptions.BadReqException;
-import il.ac.afeka.fdp.course.model.Course;
-import il.ac.afeka.fdp.course.model.CourseBoundary;
-import il.ac.afeka.fdp.course.service.CourseService;
+import il.ac.afeka.fdp.course.data.Course;
+import il.ac.afeka.fdp.course.data.CourseBoundary;
+import il.ac.afeka.fdp.course.infra.CourseService;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
