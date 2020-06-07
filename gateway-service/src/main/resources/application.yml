@@ -1,0 +1,37 @@
+server:
+  port: 8765
+
+spring:
+  application:
+    name: getaway-service
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+zuul:
+  prefix: /api
+  ignored-services: "*"
+  routes:
+    user-service:
+      path: /user/**
+      serviceId: user-service
+      stripPrefix: false
+    course-service:
+      path: /course/**
+      serviceId: course-service
+      stripPrefix: false
+    software-service:
+      path: /software/**
+      serviceId: software-service
+      stripPrefix: false
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
