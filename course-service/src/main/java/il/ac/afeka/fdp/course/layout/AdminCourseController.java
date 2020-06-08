@@ -1,0 +1,182 @@
+package il.ac.afeka.fdp.course.layout;
+
+import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
+import il.ac.afeka.fdp.course.exceptions.BadReqException;
+import il.ac.afeka.fdp.course.infra.CourseService;
+import il.ac.afeka.fdp.course.utils.FinalStrings;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/course/admin")
+public class AdminCourseController {
+    @Autowired
+    private CourseService courseService;
+
+    /**
+     * Create a new courses -- POST
+     *
+     * @param courses to create
+     * @return created courses
+     */
+    @ApiOperation(
+            value = "Create new courses",
+            notes = "Adds courses to the system",
+            nickname = "createCourse")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.COURSE_CREATED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.CREATE_BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.COURSE_EXISTS),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
+    })
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public List<CourseBoundary> create(@RequestBody List<CourseBoundary> courses) {
+        return this.courseService.create(courses.stream().map(CourseBoundary::convertToEntity).collect(Collectors.toList())).stream().map(CourseBoundary::new).collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @param page
+     * @param size
+     * @param direction
+     * @param sort
+     * @param filterType
+     * @param filterValue
+     * @return
+     */
+    @ApiOperation(
+            value = "Get all Courses",
+            notes = "Get all courses from the database")
+
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, response = CourseBoundary[].class, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CourseBoundary[] getAllCoursesByFilter(
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+            @RequestParam(name = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sort,
+            @RequestParam(name = "filterType", required = false, defaultValue = "") String filterType,
+            @RequestParam(name = "filterValue", required = false, defaultValue = "") String filterValue
+    ) {
+        List<CourseEntity> rv = null;
+        if (filterType.isEmpty()) {
+            rv = this.courseService.getAllCourses(page, size, direction, sort);
+        } else {
+            try {
+                if (filterValue.isEmpty())
+                    throw new RuntimeException("Value to search is empty");
+                switch (filterType) {
+                    case "courseName":
+                        rv = this.courseService.getCoursesByCourseName(filterValue, page, size, direction, sort);
+                        break;
+
+                    case "department":
+                        try {
+                            rv = this.courseService.getCoursesByDepartmentCode(Integer.parseInt(filterValue), page, size, direction, sort);
+                        } catch (NumberFormatException e) {
+                            throw new BadReqException("Can't convert { " + filterValue + " } to int");
+                        }
+                        break;
+
+                    default:
+                        throw new BadReqException("can't search by this type " + filterType);
+                }
+
+            } catch (Exception e) {
+                throw new BadReqException(e.getMessage());
+            }
+        }
+        return rv
+                .stream()
+                .map(CourseBoundary::new).toArray(CourseBoundary[]::new);
+    }
+
+    /**
+     * Edit specific course -- PUT
+     *
+     * @param code course's code to change
+     * @param courseEdit new course
+     */
+    @ApiOperation(
+            value = "Edit course details by course code",
+            notes = "Edit this course in database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_EDITED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.NO_COURSE_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @PutMapping(
+            path = "/{code}",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void editCourse(
+            @PathVariable long code,
+            @RequestBody CourseBoundary courseEdit) {
+        this.courseService.editCourse(code, courseEdit.getCode() != null ? courseEdit.convertToEntity() : courseEdit.convertToEntity(code));
+    }
+
+    /**
+     * Delete specific course -- DELETE
+     *
+     * @param code course's code to delete
+     */
+    @ApiOperation(
+            value = "Delete specific course by course code",
+            notes = "Remove this course from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
+
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.NO_COURSE_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @DeleteMapping(path = "/{code}")
+    public void deleteCourseByCode(@PathVariable("code") long code) {
+        this.courseService.deleteCourseByCode(code);
+    }
+
+    /**
+     * Delete all courses -- DELETE
+     */
+    @ApiOperation(
+            value = "Delete all courses",
+            notes = "Delete courses from the database.\n" +
+                    "Can be called only by Admin/Lecturer after authentication")
+
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.COURSES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @DeleteMapping
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteAll() {
+        this.courseService.deleteAll();
+    }
+}

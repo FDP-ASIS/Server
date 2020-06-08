@@ -1,17 +1,17 @@
 package il.ac.afeka.fdp.course.dao;
 
-import il.ac.afeka.fdp.course.data.Course;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CourseCrud extends MongoRepository<Course, String> {
-    boolean existsCourseByCourseCode(String code);
-    Course findByCourseCode(@Param("courseCode") String courseCode);
-    List<Course> findAllByCourseName(@Param("courseName") String courseName, Pageable pageable);
-    List<Course> findAllByDepartment(@Param("department") String department, Pageable pageable);
-    List<Course> findAllBySoftwareList(@Param("software") String softwareList, Pageable pageable);
+public interface CourseCrud extends MongoRepository<CourseEntity, Long> {
+
+    List<CourseEntity> findByNameStartingWith(@Param("name") String name, PageRequest of);
+
+    List<CourseEntity> findAllByDepartmentCode(@Param("departmentCode") int code, PageRequest of);
 
 }

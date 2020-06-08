@@ -24,13 +24,15 @@ spring:
       database: Users
       host: localhost
       port: 27017
+
       #      username: ""
       #      password: ""
 
 # --- Logger --- #
 logging:
   level:
-    org.springframework.web.servlet.mvc.method.annotation: trace
+    org.springframework.data.mongodb: TRACE
+    org.springframework.web.servlet.mvc.method.annotation: TRACE
 
 # --- Swagger --- #
 swagger:

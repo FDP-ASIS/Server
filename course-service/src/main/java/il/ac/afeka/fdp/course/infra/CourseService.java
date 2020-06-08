@@ -1,18 +1,25 @@
 package il.ac.afeka.fdp.course.infra;
 
-import il.ac.afeka.fdp.course.data.Course;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public interface CourseService {
-    Course create (Course course);
-    Course getCourseByCode(String courseCode);
-    List<Course> getAllCourses(int page, int size, String sort);
-    List<Course> getCourseByCourseName(String courseName, int page, int size, String sort);
-    List<Course> getCourseByDepartment(String department, int page, int size, String sort);
-    List<Course> getCourseBySoftwareList(String softwareList, int page, int size, String sort);
-    void editCourse(String courseCode, Course course);
-    void deleteCourseByCode(String courseCode);
+    List<CourseEntity> create(List<CourseEntity> courses);
+
+    CourseEntity getCourseByCode(long code);
+
+    List<CourseEntity> getAllCourses(int page, int size, Sort.Direction direction, String sort);
+
+    List<CourseEntity> getCoursesByCourseName(String name, int page, int size, Sort.Direction direction, String sort);
+
+    List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort);
+
+    void editCourse(long courseCode, CourseEntity course);
+
+    void deleteCourseByCode(long courseCode);
+
     void deleteAll();
 
 

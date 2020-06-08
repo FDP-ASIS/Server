@@ -23,5 +23,10 @@ public class ExceptionHandlerResponse {
     public ResponseEntity<Object> handlingUserNotFoundException(UserNotFound exception) {
         return new ResponseEntity<>(new Message("User not found"), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = javax.validation.ConstraintViolationException.class)
+    public ResponseEntity<Object> handlingUserNotFoundException(javax.validation.ConstraintViolationException exception) {
+        return new ResponseEntity<>(new Message("Bad request"), HttpStatus.BAD_REQUEST);
+    }
 }
 

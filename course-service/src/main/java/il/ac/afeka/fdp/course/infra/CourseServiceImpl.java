@@ -1,86 +1,80 @@
 package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.CourseCrud;
-import il.ac.afeka.fdp.course.data.Course;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
-import il.ac.afeka.fdp.course.exceptions.CourseAlreadyExistsException;
-import il.ac.afeka.fdp.course.exceptions.CourseNotFoundException;
+import il.ac.afeka.fdp.course.exceptions.AlreadyExistsException;
+import il.ac.afeka.fdp.course.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-
+    @Autowired
     private CourseCrud courseCrud;
 
-    @Autowired
-    public CourseServiceImpl(CourseCrud courseCrud) {
-        super();
-        this.courseCrud = courseCrud;
-    }
-
     @Override
-    public Course create(Course course) {
-        String code = course.getCourseCode();
-        if (this.courseCrud.existsCourseByCourseCode(code)) {
-            throw new CourseAlreadyExistsException(FinalStrings.COURSE_EXISTS + code);
+    public List<CourseEntity> create(List<CourseEntity> courses) {
+        if (courses.stream().anyMatch(entity -> this.courseCrud.existsById(entity.getCode()))) {
+            throw new AlreadyExistsException(FinalStrings.COURSE_EXISTS);
         }
-        return this.courseCrud.save(course);
+        return this.courseCrud.saveAll(courses.stream()
+                .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
+                .collect(Collectors.toList()));
     }
 
     @Override
-    public List<Course> getAllCourses(int page, int size, String sort) {
-        return this.courseCrud.findAll(PageRequest.of(page, size, Sort.Direction.ASC, sort)).getContent();
+    public List<CourseEntity> getAllCourses(int page, int size, Sort.Direction direction, String sort) {
+        return this.courseCrud.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
     @Override
-    public List<Course> getCourseByCourseName(String name, int page, int size, String sort) {
-        return this.courseCrud.findAllByCourseName(name, PageRequest.of(page, size, Sort.Direction.ASC, sort));
+    public List<CourseEntity> getCoursesByCourseName(String name, int page, int size, Sort.Direction direction, String sort) {
+        return this.courseCrud.findByNameStartingWith(name, PageRequest.of(page, size, direction, sort));
     }
 
     @Override
-    public List<Course> getCourseByDepartment(String department, int page, int size, String sort) {
-        return this.courseCrud.findAllByDepartment(department, PageRequest.of(page, size, Sort.Direction.ASC, sort));
+    public List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort) {
+        return this.courseCrud.findAllByDepartmentCode(departmentCode, PageRequest.of(page, size, direction, sort));
     }
 
     @Override
-    public List<Course> getCourseBySoftwareList(String softwareList, int page, int size, String sort) {
-        return this.courseCrud.findAllBySoftwareList(softwareList, PageRequest.of(page, size, Sort.Direction.ASC, sort));
+    public CourseEntity getCourseByCode(long code) {
+        return this.courseCrud.findById(code).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public Course getCourseByCode(String courseCode) {
-        Course courseToReturn = this.courseCrud.findByCourseCode(courseCode);
-        if (courseToReturn == null) {
-            throw new CourseNotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
+    public void editCourse(long courseCode, CourseEntity course) {
+        Optional<CourseEntity> courseToEditOptional = this.courseCrud.findById(courseCode);
+        if (courseToEditOptional.isEmpty()) {
+            throw new NotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
         }
-        return courseToReturn;
+        CourseEntity courseToEdit = courseToEditOptional.get();
+        course.setStudentsIdList(courseToEdit.getStudentsIdList());
+        course.setLecturersIdList(courseToEdit.getLecturersIdList());
+        if (course.getName().isEmpty())
+            course.setName(courseToEdit.getName());
+        if (course.getDepartment() == null)
+            course.setDepartment(courseToEdit.getDepartment());
+        this.courseCrud.save(course);
+        if (courseCode != course.getCode())
+            this.courseCrud.deleteById(courseCode);
     }
 
     @Override
-    public void editCourse(String courseCode, Course course) {
-        Course courseToEdit = this.courseCrud.findByCourseCode(courseCode);
-        if (courseToEdit == null) {
-            throw new CourseNotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
+    public void deleteCourseByCode(long courseCode) {
+        if (!this.courseCrud.existsById(courseCode)) {
+            throw new NotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
         }
-        courseToEdit.setCourseCode(course.getCourseCode());
-        courseToEdit.setCourseName(course.getCourseName());
-        courseToEdit.setDepartment(course.getDepartment());
-        courseToEdit.setSoftwareList(course.getSoftwareList());
-    }
-
-    @Override
-    public void deleteCourseByCode(String courseCode) {
-        Course courseToDelete = this.courseCrud.findByCourseCode(courseCode);
-        if (courseToDelete == null) {
-            throw new CourseNotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
-        }
-
-        this.courseCrud.delete(courseToDelete);
+        this.courseCrud.deleteById(courseCode);
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,11 +31,11 @@ public class AdminUserController {
      */
     @ApiOperation(value = "sign up users", notes = "Be careful with the query param", nickname = "signUp")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully created users"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 409, message = "Conflict user/s already exists"),
+            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "Successfully created users"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = "Conflict user/s already exists"),
     })
     @PostMapping(value = "/signup/{role}", name = "sign up users by admin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,9 +56,9 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Get all users", notes = "default sort is id", nickname = "getAll")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "OK"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
     })
     @GetMapping(value = "/all", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
     List<UserBoundary> getAllUsers(
@@ -74,9 +75,9 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Get user", nickname = "getUser")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "OK"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
     })
     @GetMapping(value = "/{id}", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
     UserBoundary getAllUsers(
@@ -89,11 +90,12 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Delete all users", nickname = "deleteAllUsers")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "OK"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
     })
     @DeleteMapping(value = "/", name = "Delete all the users in the system")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     void deleteAllUsers() {
         this.userService.deleteAllUsers();
     }
@@ -119,10 +121,11 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Update a user", nickname = "updateUser")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "User not found"),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "OK"),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "User not found"),
     })
     @PutMapping(value = "/{id}", name = "Update user by id")
     void updateUserById(

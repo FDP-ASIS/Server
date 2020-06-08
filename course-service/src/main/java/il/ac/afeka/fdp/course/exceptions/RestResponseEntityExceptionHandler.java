@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {CourseNotFoundException.class})
+    @ExceptionHandler(value = {NotFoundException.class})
     protected ResponseEntity<Object> handleCourseNotFound(
             RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, "{\"error\" : \"" + ex.getMessage() + "\" }",
@@ -25,7 +25,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(value = {CourseAlreadyExistsException.class})
+    @ExceptionHandler(value = {AlreadyExistsException.class})
     protected ResponseEntity<Object> handleCourseExists(
             RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, "{\"error\" : \"" + ex.getMessage() + "\" }",

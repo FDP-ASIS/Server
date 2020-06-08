@@ -44,4 +44,5 @@ swagger:
 # --- Logger --- #
 logging:
   level:
-    org.springframework.web.servlet.mvc.method.annotation: trace
+    org.springframework.data.mongodb: TRACE
+    org.springframework.web.servlet.mvc.method.annotation: TRACE

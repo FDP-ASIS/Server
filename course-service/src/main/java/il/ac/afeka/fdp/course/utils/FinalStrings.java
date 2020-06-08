@@ -1,9 +1,6 @@
 package il.ac.afeka.fdp.course.utils;
 
 public interface FinalStrings {
-    String INDUSTRIAL_ENGINEERING_MANAGEMENT = "Industrial Engineering Management";
-    String Software_Engineering = "Software Engineering";
-
     String OK = "OK"; //code 200
     String SPECIFIC_COURSE_DELETED = "Specific course deleted"; // code 200
     String SPECIFIC_COURSE_EDITED = "Specific course edited"; //code 200
