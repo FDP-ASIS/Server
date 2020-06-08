@@ -36,7 +36,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void editDepartment(int departmentCode, DepartmentEntity department) {
-        DepartmentEntity departmentEntity = this.departmentCrud.findById(departmentCode).orElseThrow(NotFoundException::new);
+        DepartmentEntity departmentEntity = this.departmentCrud.findById(departmentCode).orElseThrow(() -> new NotFoundException("Department not found with code " + departmentCode));
         if (departmentEntity.getCode() == null)
             department.setCode(departmentCode);
         if (departmentEntity.getName() == null)
