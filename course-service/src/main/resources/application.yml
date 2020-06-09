@@ -1,9 +1,10 @@
+# --- CONFIGURATIONS --- #
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: user-service
+    name: course-service
 
   output:
     ansi:
@@ -11,8 +12,8 @@ spring:
 
   profiles:
     acrive:
-        - dev
-        - default
+      - dev
+      - default
 
   devtools:
     restart:
@@ -24,9 +25,8 @@ spring:
       database: FDP
       host: localhost
       port: 27017
-
-      #      username: ""
-      #      password: ""
+#      username: ""
+#      password: ""
 
 # --- Logger --- #
 logging:
@@ -37,18 +37,12 @@ logging:
 # --- Swagger --- #
 swagger:
   meta:
-    description: Documentation API of user service
+    description: Documentation API of course service
     contact:
       name: FDP ASIS
       url: https://github.com/FDP-ASIS
       email: finalprojectafeka2020@gmail.com
     license:
-        name: Afeka license
-        url: ""
+      name: Afeka license
+      url: ""
     version: 1.0.0
-
-# --- Eureka --- #
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/

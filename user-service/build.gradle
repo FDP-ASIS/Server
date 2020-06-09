@@ -2,6 +2,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.17.Final'
+	compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.5.Final'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }

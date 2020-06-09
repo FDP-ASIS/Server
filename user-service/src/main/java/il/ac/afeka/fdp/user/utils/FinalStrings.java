@@ -1,4 +1,4 @@
-package il.ac.afeka.fdp.course.utils;
+package il.ac.afeka.fdp.user.utils;
 
 public interface FinalStrings {
 
@@ -17,7 +17,8 @@ public interface FinalStrings {
 
     //400
     String BAD_REQUEST = "Bad request property input"; // code 400
-    String UNAUTHORIZED = "Unauthorized, you can not allowed to do this"; // code 401
+    String UNAUTHORIZED = "You are not authorized to view the resource"; // code 401
+    String FORBIDDEN = "Accessing the resource you were trying to reach is forbidden"; // code 403
     String RESOURCE_NOT_FOUND = "Resource not found: "; // code 404
     String RESOURCE_EXISTS = "Failed to create the new resource because it's already exists: "; // code 409
 
@@ -27,13 +28,11 @@ public interface FinalStrings {
     //EXCEPTIONS MESSAGES
     String EMPTY_FILED = "There are one or more empty fields";
 
-    //COURSE
-    String COURSE_ONE_OR_MORE_CODES = "There are one or more course which exists with one or more of the codes that you have supplied";
-    String COURSE_NOT_EXISTS = "Course doe's exists with code ";
-    String COURSE_ALREADY_EXISTS = "Course already exists with code ";
+    //USER
+    String USER_ID_MUST_BE_DIGITS = "User id must be digits only: ";
 
-    //DEPARTMENT
-    String DEPARTMENT_ALREADY_EXISTS_ONE_OR_MORE_CODES = "There are one or more departments which exists with one or more of the codes that you have supplied";
-    String DEPARTMENT_NOT_EXISTS = "Department doe's exists with code ";
-    String DEPARTMENT_ALREADY_EXISTS = "Department already exists with code ";
+    String USER_ONE_OR_MORE_ID = "There are one or more users which exists with one or more of the ids that you have supplied";
+    String USER_NOT_EXISTS = "User doe's exists with id ";
+    String USER_ALREADY_EXISTS = "User already exists with id ";
+
 }
