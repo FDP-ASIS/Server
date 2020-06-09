@@ -2,9 +2,11 @@ package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.CourseCrud;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
+import il.ac.afeka.fdp.course.exceptions.course.CourseAlreadyExistsException;
+import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
-import il.ac.afeka.fdp.course.exceptions.AlreadyExistsException;
-import il.ac.afeka.fdp.course.exceptions.NotFoundException;
+import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
+import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,15 +22,21 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseCrud courseCrud;
 
+    @Autowired
+    private DepartmentService departmentService;
+
     @Override
     public List<CourseEntity> create(List<CourseEntity> courses) {
         if (courses.stream().anyMatch(entity -> this.courseCrud.existsById(entity.getCode()))) {
-            throw new AlreadyExistsException(FinalStrings.COURSE_EXISTS);
+            throw new CourseAlreadyExistsException();
         }
         return this.courseCrud.saveAll(courses.stream()
+//                .peek(courseEntity -> courseEntity.setDepartment(departmentService.getDepartmentByCode(courseEntity.getDepartment().getCode())))
                 .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
                 .collect(Collectors.toList()));
+
+//        return this.courseCrud.saveAll(courses);
     }
 
     @Override
@@ -48,16 +56,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseEntity getCourseByCode(long code) {
-        return this.courseCrud.findById(code).orElseThrow(NotFoundException::new);
+        return this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
     }
 
     @Override
-    public void editCourse(long courseCode, CourseEntity course) {
-        Optional<CourseEntity> courseToEditOptional = this.courseCrud.findById(courseCode);
-        if (courseToEditOptional.isEmpty()) {
-            throw new NotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
-        }
-        CourseEntity courseToEdit = courseToEditOptional.get();
+    public void editCourse(long code, CourseEntity course) {
+        CourseEntity courseToEdit = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         course.setStudentsIdList(courseToEdit.getStudentsIdList());
         course.setLecturersIdList(courseToEdit.getLecturersIdList());
         if (course.getName().isEmpty())
@@ -65,14 +69,14 @@ public class CourseServiceImpl implements CourseService {
         if (course.getDepartment() == null)
             course.setDepartment(courseToEdit.getDepartment());
         this.courseCrud.save(course);
-        if (courseCode != course.getCode())
-            this.courseCrud.deleteById(courseCode);
+        if (code != course.getCode())
+            this.courseCrud.deleteById(code);
     }
 
     @Override
     public void deleteCourseByCode(long courseCode) {
         if (!this.courseCrud.existsById(courseCode)) {
-            throw new NotFoundException(FinalStrings.NO_COURSE_FOUND + courseCode);
+            throw new CourseNotFoundException(courseCode);
         }
         this.courseCrud.deleteById(courseCode);
     }

@@ -22,11 +22,17 @@ spring:
   # --- MongoDB --- #
   data:
     mongodb:
-      database: Users
+      database: FDP
       host: localhost
       port: 27017
 #      username: ""
 #      password: ""
+
+# --- Logger --- #
+logging:
+  level:
+    org.springframework.data.mongodb: TRACE
+    org.springframework.web.servlet.mvc.method.annotation: TRACE
 
 # --- Swagger --- #
 swagger:
@@ -40,9 +46,3 @@ swagger:
       name: Afeka license
       url: ""
     version: 1.0.0
-
-# --- Logger --- #
-logging:
-  level:
-    org.springframework.data.mongodb: TRACE
-    org.springframework.web.servlet.mvc.method.annotation: TRACE

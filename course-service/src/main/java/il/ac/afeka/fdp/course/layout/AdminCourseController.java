@@ -2,7 +2,7 @@ package il.ac.afeka.fdp.course.layout;
 
 import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
-import il.ac.afeka.fdp.course.exceptions.BadReqException;
+import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.infra.CourseService;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
@@ -35,10 +35,10 @@ public class AdminCourseController {
             notes = "Adds courses to the system",
             nickname = "createCourse")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.COURSE_CREATED),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.CREATE_BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.COURSE_EXISTS),
+            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.RESOURCE_EXISTS),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
     @PostMapping(
@@ -51,13 +51,13 @@ public class AdminCourseController {
 
     /**
      *
-     * @param page
-     * @param size
-     * @param direction
-     * @param sort
-     * @param filterType
-     * @param filterValue
-     * @return
+     * @param page to start
+     * @param size of the page
+     * @param direction to sort
+     * @param sort properties to sort
+     * @param filterType type
+     * @param filterValue value
+     * @return list of courses
      */
     @ApiOperation(
             value = "Get all Courses",
@@ -65,7 +65,7 @@ public class AdminCourseController {
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, response = CourseBoundary[].class, message = FinalStrings.OK),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
@@ -88,7 +88,7 @@ public class AdminCourseController {
                 if (filterValue.isEmpty())
                     throw new RuntimeException("Value to search is empty");
                 switch (filterType) {
-                    case "courseName":
+                    case "name":
                         rv = this.courseService.getCoursesByCourseName(filterValue, page, size, direction, sort);
                         break;
 
@@ -124,10 +124,10 @@ public class AdminCourseController {
             notes = "Edit this course in database.\n" +
                     "Can be called only by Admin/Lecturer after authentication")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_EDITED),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_EDITED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.NO_COURSE_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @PutMapping(
@@ -150,10 +150,10 @@ public class AdminCourseController {
                     "Can be called only by Admin/Lecturer after authentication")
 
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.SPECIFIC_COURSE_DELETED),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.NO_COURSE_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @DeleteMapping(path = "/{code}")
@@ -168,9 +168,8 @@ public class AdminCourseController {
             value = "Delete all courses",
             notes = "Delete courses from the database.\n" +
                     "Can be called only by Admin/Lecturer after authentication")
-
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.COURSES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 

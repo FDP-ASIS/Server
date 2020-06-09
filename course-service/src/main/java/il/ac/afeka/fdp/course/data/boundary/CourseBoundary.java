@@ -30,10 +30,10 @@ public class CourseBoundary {
     }
 
     public CourseEntity convertToEntity() {
-        return CourseEntity.of(code, name, department.convertToEntity(), studentsIdList, lecturersIdList);
+        return CourseEntity.of(code, name, department.convertToEntity());
     }
 
     public CourseEntity convertToEntity(long code) {
-        return CourseEntity.of(code, name, department.convertToEntity(), studentsIdList, lecturersIdList);
+        return CourseEntity.of(code, name, department.convertToEntity());
     }
 }

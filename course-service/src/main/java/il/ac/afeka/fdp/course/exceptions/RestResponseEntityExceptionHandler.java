@@ -1,5 +1,8 @@
 package il.ac.afeka.fdp.course.exceptions;
 
+import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
+import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
+import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

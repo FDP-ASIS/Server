@@ -34,10 +34,10 @@ public class AdminDepartmentController {
             notes = "Adds departments to the system",
             nickname = "createDepartments")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "Department created successfully!"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "BAD_REQUEST"),
-            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "UNAUTHORIZED"),
-            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = "CONFLICT"),
+            @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.RESOURCE_EXISTS),
     })
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -54,11 +54,11 @@ public class AdminDepartmentController {
 
 
     /**
-     * @param page
-     * @param size
-     * @param direction
-     * @param sort
-     * @return
+     * @param page      to start
+     * @param size      of the page
+     * @param direction to sort
+     * @param sort      properties to sort
+     * @return list of departments
      */
     @ApiOperation(
             value = "Get all Departments",
@@ -66,7 +66,7 @@ public class AdminDepartmentController {
 
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, response = DepartmentBoundary[].class, message = FinalStrings.OK),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,10 +88,10 @@ public class AdminDepartmentController {
     @ApiOperation(
             value = "Edit department details by department's code")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "DEPARTMENT_EDITED"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_EDITED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "NO_DEPARTMENT_FOUND"),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
     @PutMapping(
@@ -100,7 +100,7 @@ public class AdminDepartmentController {
     public void editCourse(
             @PathVariable("code") int code,
             @RequestBody DepartmentBoundary departmentBoundary) {
-        this.departmentService.editDepartment(code, departmentBoundary.convertToEntity());
+        this.departmentService.editDepartment(code, departmentBoundary.getCode() != null ? departmentBoundary.convertToEntity() : departmentBoundary.convertToEntity(code));
     }
 
     /**
@@ -112,10 +112,10 @@ public class AdminDepartmentController {
             value = "Delete specific department by department's code"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "DEPARTMENT_DELETED"),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "NO_DEPARTMENT_FOUND"),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @DeleteMapping(path = "/{code}")
@@ -130,7 +130,7 @@ public class AdminDepartmentController {
             value = "Delete all departments"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.COURSES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.ALL_RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
     })
     @DeleteMapping

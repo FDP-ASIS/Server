@@ -21,7 +21,7 @@ spring:
   # --- MongoDB --- #
   data:
     mongodb:
-      database: Users
+      database: FDP
       host: localhost
       port: 27017
 #      username: ""

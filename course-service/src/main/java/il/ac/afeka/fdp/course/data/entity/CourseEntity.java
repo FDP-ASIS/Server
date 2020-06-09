@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,13 +24,11 @@ public class CourseEntity {
     @NonNull
     @DBRef
     private DepartmentEntity department;
-//    @NonNull
+    //    @NonNull
 //    @DBRef
 //    private List<String> softwareIdList;
-    @NonNull
     @DBRef
-    private List<User> studentsIdList;
-    @NonNull
+    private List<User> studentsIdList; //= new ArrayList<>();
     @DBRef
-    private List<User> lecturersIdList;
+    private List<User> lecturersIdList;// = new ArrayList<>();
 }

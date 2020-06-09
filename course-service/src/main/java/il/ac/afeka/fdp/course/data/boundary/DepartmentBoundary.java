@@ -16,6 +16,10 @@ public class DepartmentBoundary {
     }
 
     public DepartmentEntity convertToEntity() {
-        return DepartmentEntity.of(code, name);
+        return new DepartmentEntity(code, name);
+    }
+
+    public DepartmentEntity convertToEntity(int code) {
+        return new DepartmentEntity(code, name);
     }
 }
