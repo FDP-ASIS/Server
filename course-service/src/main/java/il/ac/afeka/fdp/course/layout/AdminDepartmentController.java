@@ -69,9 +69,7 @@ public class AdminDepartmentController {
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_INPUT),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
     })
-    @RequestMapping(
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public DepartmentBoundary[] getAllCoursesByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
@@ -84,7 +82,7 @@ public class AdminDepartmentController {
     /**
      * Edit specific department -- PUT
      *
-     * @param code department's code to change
+     * @param code               department's code to change
      * @param departmentBoundary new department
      */
     @ApiOperation(
@@ -100,7 +98,7 @@ public class AdminDepartmentController {
             path = "/{code}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public void editCourse(
-            @PathVariable("departmentCode") int code,
+            @PathVariable("code") int code,
             @RequestBody DepartmentBoundary departmentBoundary) {
         this.departmentService.editDepartment(code, departmentBoundary.convertToEntity());
     }
