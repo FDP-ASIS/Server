@@ -1,6 +1,6 @@
 package il.ac.afeka.fdp.user.infra;
 
-import il.ac.afeka.fdp.user.dao.UserRepository;
+import il.ac.afeka.fdp.user.dao.UserDao;
 import il.ac.afeka.fdp.user.data.UserRoleEnum;
 import il.ac.afeka.fdp.user.data.entity.UserEntity;
 import il.ac.afeka.fdp.user.exception.user.IdMustBeOnlyDigits;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository repository;
+    private UserDao userDao;
 
     @Override
     public List<UserEntity> signUp(List<UserEntity> entities, UserRoleEnum role) {
-        return repository.saveAll(entities.stream()
+        return userDao.saveAll(entities.stream()
                 .peek(userEntity -> {
                     try {
                         Long.valueOf(userEntity.getId());
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
                         throw new IdMustBeOnlyDigits(userEntity.getId());
                     }
                 }).peek(userEntity -> {
-                    if (repository.existsByIdOrUsernameOrEmail(userEntity.getId(), userEntity.getUsername(), userEntity.getEmail()))
+                    if (userDao.existsByIdOrUsernameOrEmail(userEntity.getId(), userEntity.getUsername(), userEntity.getEmail()))
                         throw new UserAlreadyExists(userEntity.getId());
                 })
                 .peek(userEntity -> userEntity.setRole(role))
@@ -40,40 +40,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> getAllUsers(int page, int size, Sort.Direction direction, String sort) {
-        return this.repository.findAll(PageRequest.of(page, size, direction, sort)).getContent();
+        return this.userDao.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
     @Override
     public UserEntity getUserById(String id) {
-        return this.repository.findById(id).orElseThrow(() -> new UserNotFound(id));
+        return this.userDao.findById(id).orElseThrow(() -> new UserNotFound(id));
     }
 
     @Override
     public void deleteAllUsers() {
-        this.repository.deleteAll();
+        this.userDao.deleteAll();
     }
 
     @Override
     public void deleteUserById(String id) {
-        if (!this.repository.existsById(id)) {
+        if (!this.userDao.existsById(id)) {
             throw new UserNotFound(id);
         }
-        this.repository.deleteById(id);
+        this.userDao.deleteById(id);
     }
 
     @Override
     public void updateUserById(UserEntity user) {
-        if (!this.repository.existsById(user.getId()))
+        if (!this.userDao.existsById(user.getId()))
             throw new UserNotFound(user.getId());
-        this.repository.save(user);
+        this.userDao.save(user);
 
     }
 
     @Override
     public UserEntity updateUserPasswordById(String id, String password) {
-        UserEntity userEntity = this.repository.findById(id).orElseThrow(() -> new UserNotFound(id));
+        UserEntity userEntity = this.userDao.findById(id).orElseThrow(() -> new UserNotFound(id));
         userEntity.setPassword(encryptPassword(password));
-        return this.repository.save(userEntity);
+        return this.userDao.save(userEntity);
     }
 
     private String encryptPassword(String password) {
