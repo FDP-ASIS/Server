@@ -10,9 +10,8 @@ spring:
       enabled: ALWAYS
 
   profiles:
-    acrive:
-        - dev
-        - default
+    active:
+      - dev
 
   devtools:
     restart:

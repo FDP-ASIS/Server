@@ -1,6 +1,6 @@
 package il.ac.afeka.fdp.course.exceptions.root;
 
-public class BadReqException extends RuntimeException{
+public class BadReqException extends RuntimeException {
 
     public BadReqException() {
     }
@@ -17,7 +17,4 @@ public class BadReqException extends RuntimeException{
         super(message, cause);
     }
 
-    public BadReqException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
