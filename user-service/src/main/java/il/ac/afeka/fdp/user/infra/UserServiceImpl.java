@@ -3,9 +3,9 @@ package il.ac.afeka.fdp.user.infra;
 import il.ac.afeka.fdp.user.dao.UserRepository;
 import il.ac.afeka.fdp.user.data.UserRoleEnum;
 import il.ac.afeka.fdp.user.data.entity.UserEntity;
-import il.ac.afeka.fdp.user.exception.IdMustBeOnlyDigits;
-import il.ac.afeka.fdp.user.exception.UserAlreadyExists;
-import il.ac.afeka.fdp.user.exception.UserNotFound;
+import il.ac.afeka.fdp.user.exception.user.IdMustBeOnlyDigits;
+import il.ac.afeka.fdp.user.exception.user.UserAlreadyExists;
+import il.ac.afeka.fdp.user.exception.user.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,11 +27,11 @@ public class UserServiceImpl implements UserService {
                     try {
                         Long.valueOf(userEntity.getId());
                     } catch (NumberFormatException e) {
-                        throw new IdMustBeOnlyDigits();
+                        throw new IdMustBeOnlyDigits(userEntity.getId());
                     }
                 }).peek(userEntity -> {
                     if (repository.existsByIdOrUsernameOrEmail(userEntity.getId(), userEntity.getUsername(), userEntity.getEmail()))
-                        throw new UserAlreadyExists();
+                        throw new UserAlreadyExists(userEntity.getId());
                 })
                 .peek(userEntity -> userEntity.setRole(role))
                 .peek(userEntity -> userEntity.setPassword(encryptPassword(String.valueOf(userEntity.getId()))))
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getUserById(String id) {
-        return this.repository.findById(id).orElseThrow(UserNotFound::new);
+        return this.repository.findById(id).orElseThrow(() -> new UserNotFound(id));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(String id) {
         if (!this.repository.existsById(id)) {
-            throw new UserNotFound();
+            throw new UserNotFound(id);
         }
         this.repository.deleteById(id);
     }
@@ -64,14 +64,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserById(UserEntity user) {
         if (!this.repository.existsById(user.getId()))
-            throw new UserNotFound();
+            throw new UserNotFound(user.getId());
         this.repository.save(user);
 
     }
 
     @Override
     public UserEntity updateUserPasswordById(String id, String password) {
-        UserEntity userEntity = this.repository.findById(id).orElseThrow(UserNotFound::new);
+        UserEntity userEntity = this.repository.findById(id).orElseThrow(() -> new UserNotFound(id));
         userEntity.setPassword(encryptPassword(password));
         return this.repository.save(userEntity);
     }

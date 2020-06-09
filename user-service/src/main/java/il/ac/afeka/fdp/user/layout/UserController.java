@@ -3,6 +3,7 @@ package il.ac.afeka.fdp.user.layout;
 import il.ac.afeka.fdp.user.data.boundary.PasswordBoundary;
 import il.ac.afeka.fdp.user.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.user.infra.UserService;
+import il.ac.afeka.fdp.user.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -26,7 +27,7 @@ public class UserController {
      */
     @ApiOperation(value = "Update user password by id", nickname = "updateUserPassword")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "Password changed"),
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
