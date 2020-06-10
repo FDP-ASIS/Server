@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.course.infra;
 
+import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import org.springframework.data.domain.Sort;
 
@@ -22,5 +23,5 @@ public interface CourseService {
 
     void deleteAll();
 
-
+    void assign(long code, String id, UserRole role);
 }

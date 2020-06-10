@@ -18,6 +18,7 @@ public interface FinalStrings {
     //400
     String BAD_REQUEST = "Bad request property input"; // code 400
     String UNAUTHORIZED = "Unauthorized, you can not allowed to do this"; // code 401
+    String FORBIDDEN = "Accessing the resource you were trying to reach is forbidden"; // code 403
     String RESOURCE_NOT_FOUND = "Resource not found: "; // code 404
     String RESOURCE_EXISTS = "Failed to create the new resource because it's already exists: "; // code 409
 

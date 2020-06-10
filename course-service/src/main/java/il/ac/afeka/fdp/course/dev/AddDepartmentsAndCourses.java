@@ -23,15 +23,19 @@ public class AddDepartmentsAndCourses implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        departmentService.create(Arrays.asList(
-                new DepartmentEntity(10, "SOFTWARE_ENGINEER"),
-                new DepartmentEntity(20, "INDUSTRIAL_ENGINEERING_MANAGEMENT"),
-                new DepartmentEntity(30, "ELECTRICAL_ENGINEER")
-        ));
-        courseService.create(Arrays.asList(
-                CourseEntity.of(12345, "course1", new DepartmentEntity(10, null)),
-                CourseEntity.of(11111, "course2", new DepartmentEntity(10, null)),
-                CourseEntity.of(22222, "course3", new DepartmentEntity(20, null))
-        ));
+        try {
+            departmentService.create(Arrays.asList(
+                    new DepartmentEntity(10, "SOFTWARE_ENGINEER"),
+                    new DepartmentEntity(20, "INDUSTRIAL_ENGINEERING_MANAGEMENT"),
+                    new DepartmentEntity(30, "ELECTRICAL_ENGINEER")
+            ));
+            courseService.create(Arrays.asList(
+                    CourseEntity.of(12345, "course1", new DepartmentEntity(10, null)),
+                    CourseEntity.of(11111, "course2", new DepartmentEntity(10, null)),
+                    CourseEntity.of(22222, "course3", new DepartmentEntity(20, null))
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

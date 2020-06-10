@@ -1,9 +1,12 @@
 package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.CourseCrud;
+import il.ac.afeka.fdp.course.data.User;
+import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.exceptions.course.CourseAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
+import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
@@ -84,5 +87,21 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void deleteAll() {
         this.courseCrud.deleteAll();
+    }
+
+    @Override
+    public void assign(long code, String id, UserRole role) {
+        CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        switch (role) {
+            case STUDENT:
+                entity.getStudentsIdList().add(User.of(id));
+                break;
+            case LECTURER:
+                entity.getLecturersIdList().add(User.of(id));
+                break;
+            default:
+                throw new BadReqException("Role not found");
+        }
+        this.courseCrud.save(entity);
     }
 }

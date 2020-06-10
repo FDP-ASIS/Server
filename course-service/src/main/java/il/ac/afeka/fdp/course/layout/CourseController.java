@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.layout;
 
 import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
+import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.infra.CourseService;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,7 @@ import java.net.HttpURLConnection;
 public class CourseController {
 
     @Autowired
-    private CourseService course;
+    private CourseService courseService;
 
     /**
      * Get Course by course code -- GET
@@ -33,6 +34,7 @@ public class CourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, response = CourseBoundary.class, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
@@ -40,6 +42,26 @@ public class CourseController {
             path = "/course/{code}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public CourseBoundary getCourseByCode(@PathVariable("code") long code) {
-        return new CourseBoundary(this.course.getCourseByCode(code));
+        return new CourseBoundary(this.courseService.getCourseByCode(code));
+    }
+
+    /**
+     *
+     * @param code course code
+     * @param id lecturer id
+     */
+    @ApiOperation(
+            value = "Assign STUDENT to course")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @PatchMapping(path = "/{code}")
+    public void addLecturerToCourse(@PathVariable(name = "code") long code,
+                                    @RequestParam(name = "id") String id) {
+        this.courseService.assign(code,id, UserRole.STUDENT);
     }
 }
