@@ -2,6 +2,7 @@ package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.DepartmentCrud;
 import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
+import il.ac.afeka.fdp.course.exceptions.department.DepartmentAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.department.DepartmentNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
@@ -24,7 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (departments.stream().anyMatch(entity -> entity.getName() == null || entity.getName().isEmpty()))
             throw new BadReqException(FinalStrings.EMPTY_FILED);
         if (departments.stream().anyMatch(entity -> this.departmentCrud.existsById(entity.getCode()))) {
-            throw new DepartmentNotFoundException();
+            throw new DepartmentAlreadyExistsException();
         }
         return this.departmentCrud.saveAll(departments);
     }

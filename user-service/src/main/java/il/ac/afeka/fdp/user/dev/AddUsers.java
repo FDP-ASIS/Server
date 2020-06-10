@@ -20,9 +20,13 @@ public class AddUsers implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        service.signUp(Arrays.asList(
-                UserEntity.of("123456789", "username1", new Name("first1", "middle1", "last2"), "user1@mail.com"),
-                UserEntity.of("123456788", "username2", new Name("first1", "middle1", "last2"), "user2@mail.com")
-                ), UserRoleEnum.STUDENT);
+        try {
+            service.signUp(Arrays.asList(
+                    UserEntity.of("123456789", "username1", new Name("first1", "middle1", "last2"), "user1@mail.com"),
+                    UserEntity.of("123456788", "username2", new Name("first1", "middle1", "last2"), "user2@mail.com")
+                    ), UserRoleEnum.STUDENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

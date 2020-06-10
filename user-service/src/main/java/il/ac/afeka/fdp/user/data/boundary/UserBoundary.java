@@ -9,16 +9,22 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserBoundary {
     @ApiModelProperty(notes = "Real user id")
     private String id;
+    @NotBlank
     private String username;
+    @NotBlank
     private String email;
+    @NotBlank
     private Name name;
     @JsonIgnore
+    @NotBlank
     private UserRoleEnum role;
 
     public UserBoundary(UserEntity userEntity) {

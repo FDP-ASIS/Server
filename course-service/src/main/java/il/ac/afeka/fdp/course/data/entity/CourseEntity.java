@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,11 @@ public class CourseEntity {
     @Size(min = 5, max = 5)
     private final long code;
     @NonNull
+    @NotBlank
     private String name;
     @NonNull
     @DBRef
+    @NotBlank
     private DepartmentEntity department;
     //    @NonNull
 //    @DBRef

@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
@@ -16,5 +17,6 @@ public class DepartmentEntity {
     @NonNull
     @Size(min = 2, max = 2)
     private Integer code;
+    @NotBlank
     private String name;
 }

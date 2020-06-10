@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.layout;
 
 import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
+import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.infra.CourseService;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +40,7 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.RESOURCE_EXISTS),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
@@ -45,17 +48,16 @@ public class AdminCourseController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public List<CourseBoundary> create(@RequestBody List<CourseBoundary> courses) {
+    public List<CourseBoundary> createCourse(@RequestBody List<CourseBoundary> courses) {
         return this.courseService.create(courses.stream().map(CourseBoundary::convertToEntity).collect(Collectors.toList())).stream().map(CourseBoundary::new).collect(Collectors.toList());
     }
 
     /**
-     *
-     * @param page to start
-     * @param size of the page
-     * @param direction to sort
-     * @param sort properties to sort
-     * @param filterType type
+     * @param page        to start
+     * @param size        of the page
+     * @param direction   to sort
+     * @param sort        properties to sort
+     * @param filterType  type
      * @param filterValue value
      * @return list of courses
      */
@@ -67,6 +69,7 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, response = CourseBoundary[].class, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @RequestMapping(
@@ -80,7 +83,7 @@ public class AdminCourseController {
             @RequestParam(name = "filterType", required = false, defaultValue = "") String filterType,
             @RequestParam(name = "filterValue", required = false, defaultValue = "") String filterValue
     ) {
-        List<CourseEntity> rv = null;
+        List<CourseEntity> rv;
         if (filterType.isEmpty()) {
             rv = this.courseService.getAllCourses(page, size, direction, sort);
         } else {
@@ -116,7 +119,7 @@ public class AdminCourseController {
     /**
      * Edit specific course -- PUT
      *
-     * @param code course's code to change
+     * @param code       course's code to change
      * @param courseEdit new course
      */
     @ApiOperation(
@@ -127,6 +130,7 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_EDITED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
@@ -148,14 +152,13 @@ public class AdminCourseController {
             value = "Delete specific course by course code",
             notes = "Remove this course from the database.\n" +
                     "Can be called only by Admin/Lecturer after authentication")
-
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
-
     @DeleteMapping(path = "/{code}")
     public void deleteCourseByCode(@PathVariable("code") long code) {
         this.courseService.deleteCourseByCode(code);
@@ -171,11 +174,33 @@ public class AdminCourseController {
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @DeleteMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteAll() {
+    public void deleteAllCourses() {
         this.courseService.deleteAll();
+    }
+
+    /**
+     *
+     * @param code course code
+     * @param id lecturer id
+     */
+    @ApiOperation(
+            value = "Assign lecturer to course")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @PatchMapping(path = "/{code}")
+    public void addLecturerToCourse(@PathVariable(name = "code") long code,
+                                    @RequestParam(name = "id") String id) {
+        this.courseService.assign(code,id, UserRole.LECTURER);
     }
 }
