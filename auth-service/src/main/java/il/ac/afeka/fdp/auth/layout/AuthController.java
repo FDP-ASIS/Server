@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.auth.layout;
 
+import il.ac.afeka.fdp.auth.data.UserWithToken;
 import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.data.boundary.UsernamePasswordBoundary;
 import il.ac.afeka.fdp.auth.infra.AuthService;
@@ -22,7 +23,7 @@ public class AuthController {
 
     /**
      * @param UsernamePasswordBoundary credentials
-     * @return UserBoundary
+     * @return UserWithToken
      */
     @ApiOperation(value = "login user", nickname = "login")
     @ApiResponses(value = {
@@ -30,9 +31,9 @@ public class AuthController {
             @ApiResponse(code = 401, message = "Invalid credentials"),
     })
     @PostMapping(value = "/login", name = "login user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    UserBoundary login(
+    UserWithToken login(
             @RequestBody UsernamePasswordBoundary UsernamePasswordBoundary) {
-        return new UserBoundary(this.authService.login(UsernamePasswordBoundary.getUsername(), UsernamePasswordBoundary.getPassword()));
+        return this.authService.login(UsernamePasswordBoundary.getUsername(), UsernamePasswordBoundary.getPassword());
     }
 
     /**
