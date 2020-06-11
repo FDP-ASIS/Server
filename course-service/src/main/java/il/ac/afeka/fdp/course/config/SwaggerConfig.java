@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Data
 public class SwaggerConfig {
 
-    @Value("${spring.application.name:user-service}")
+    @Value("${spring.application.name:course-service}")
     private String appName;
     private String description;
     private Contact contact;
@@ -47,7 +47,6 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-//                .apis(RequestHandlerSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("il.ac.afeka.fdp"))
                 .paths(PathSelectors.any())
                 .build()

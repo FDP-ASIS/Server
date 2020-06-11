@@ -32,6 +32,7 @@ public class UserController {
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "User not found"),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = "Other internal server errors")
     })
     @PatchMapping(value = "/{id}", name = "Update user password by id")
     UserBoundary updateUserPasswordById(

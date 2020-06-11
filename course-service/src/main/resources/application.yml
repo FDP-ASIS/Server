@@ -1,4 +1,5 @@
 # --- CONFIGURATIONS --- #
+
 server:
   port: 8082
 
@@ -18,7 +19,7 @@ spring:
     restart:
       poll-interval: 1s
 
-  # --- MongoDB --- #
+# --- MongoDB --- #
   data:
     mongodb:
       database: FDP
@@ -45,3 +46,9 @@ swagger:
       name: Afeka license
       url: ""
     version: 1.0.0
+
+# --- Eureka --- #
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

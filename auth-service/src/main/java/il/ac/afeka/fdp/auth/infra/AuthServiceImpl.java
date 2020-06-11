@@ -2,9 +2,7 @@ package il.ac.afeka.fdp.auth.infra;
 
 import il.ac.afeka.fdp.auth.dao.UserRepository;
 import il.ac.afeka.fdp.auth.data.UserWithToken;
-import il.ac.afeka.fdp.auth.data.entity.UserEntity;
 import il.ac.afeka.fdp.auth.exception.InvalidCredentials;
-import il.ac.afeka.fdp.auth.exception.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

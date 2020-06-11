@@ -1,6 +1,5 @@
 package il.ac.afeka.fdp.auth.data.boundary;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import il.ac.afeka.fdp.auth.data.UserRoleEnum;
 
