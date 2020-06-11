@@ -7,9 +7,6 @@ import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.exceptions.course.CourseAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
-import il.ac.afeka.fdp.course.utils.FinalStrings;
-import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
-import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

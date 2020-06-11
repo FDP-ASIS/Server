@@ -1,6 +1,5 @@
 package il.ac.afeka.fdp.course.data.boundary;
 
-import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
 import il.ac.afeka.fdp.course.data.User;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import lombok.AllArgsConstructor;

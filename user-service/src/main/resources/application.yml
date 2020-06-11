@@ -1,3 +1,5 @@
+# --- CONFIGURATIONS --- #
+
 server:
   port: 8081
 

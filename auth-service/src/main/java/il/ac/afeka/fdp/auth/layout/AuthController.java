@@ -1,7 +1,6 @@
 package il.ac.afeka.fdp.auth.layout;
 
 import il.ac.afeka.fdp.auth.data.UserWithToken;
-import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.data.boundary.UsernamePasswordBoundary;
 import il.ac.afeka.fdp.auth.infra.AuthService;
 import io.swagger.annotations.Api;
@@ -27,10 +26,15 @@ public class AuthController {
      */
     @ApiOperation(value = "login user", nickname = "login")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully login users"),
+            @ApiResponse(code = 200, message = "Successfully login user"),
             @ApiResponse(code = 401, message = "Invalid credentials"),
+            @ApiResponse(code = 500, message = "Other internal errors")
     })
-    @PostMapping(value = "/login", name = "login user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(
+            value = "/login",
+            name = "login user",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     UserWithToken login(
             @RequestBody UsernamePasswordBoundary UsernamePasswordBoundary) {
         return this.authService.login(UsernamePasswordBoundary.getUsername(), UsernamePasswordBoundary.getPassword());
@@ -41,8 +45,9 @@ public class AuthController {
      */
     @ApiOperation(value = "logout user", nickname = "logout")
     @ApiResponses(value = {
-            @ApiResponse(code = 205, message = "Successfully logout users"),
+            @ApiResponse(code = 205, message = "Successfully logout user"),
             @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Other internal errors")
     })
     @DeleteMapping(value = "/logout", name = "logout user")
     @ResponseStatus(HttpStatus.RESET_CONTENT)

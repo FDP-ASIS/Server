@@ -1,11 +1,11 @@
 # --- CONFIGURATIONS --- #
 
 server:
-  port: 8080
+  port: 8083
 
 spring:
   application:
-    name: auth-service
+    name: software-service
 
   output:
     ansi:
@@ -14,13 +14,12 @@ spring:
   profiles:
     acrive:
       - dev
-      - default
 
   devtools:
     restart:
       poll-interval: 1s
 
-# --- MongoDB --- #
+  # --- MongoDB --- #
   data:
     mongodb:
       database: FDP
@@ -38,7 +37,7 @@ logging:
 # --- Swagger --- #
 swagger:
   meta:
-    description: Documentation API of auth service
+    description: Documentation API of software service
     contact:
       name: FDP ASIS
       url: https://github.com/FDP-ASIS
