@@ -1,7 +1,9 @@
 package il.ac.afeka.fdp.auth.infra;
 
 import il.ac.afeka.fdp.auth.dao.UserRepository;
+import il.ac.afeka.fdp.auth.data.Token;
 import il.ac.afeka.fdp.auth.data.UserWithToken;
+import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.exception.InvalidCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,14 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    @Override
+    public UserBoundary auth(Token token) {
+        // TODO implement the function
+        return null;
+    }
+
     private String encryptPassword(String password) {
-        //TODO add password encryption
+        // TODO add password encryption
         return password;
     }
 }
