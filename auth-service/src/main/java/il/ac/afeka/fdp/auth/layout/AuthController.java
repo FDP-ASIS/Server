@@ -1,6 +1,8 @@
 package il.ac.afeka.fdp.auth.layout;
 
 import il.ac.afeka.fdp.auth.data.UserWithToken;
+import il.ac.afeka.fdp.auth.data.Token;
+import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.data.boundary.UsernamePasswordBoundary;
 import il.ac.afeka.fdp.auth.infra.AuthService;
 import io.swagger.annotations.Api;
@@ -38,6 +40,27 @@ public class AuthController {
     UserWithToken login(
             @RequestBody UsernamePasswordBoundary UsernamePasswordBoundary) {
         return this.authService.login(UsernamePasswordBoundary.getUsername(), UsernamePasswordBoundary.getPassword());
+    }
+
+
+    /**
+     *
+     * @param token string
+     * @return user
+     */
+    @ApiOperation(value = "auth user", nickname = "tokenAuth")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully login with jwt"),
+            @ApiResponse(code = 401, message = "Invalid credentials"),
+            @ApiResponse(code = 500, message = "Other internal errors")
+    })
+    @PostMapping(
+            name = "Authenticate user with token",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    UserBoundary authWithToken(
+            @RequestBody Token token) {
+        return this.authService.auth(token);
     }
 
     /**
