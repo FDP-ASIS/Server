@@ -1,6 +1,6 @@
-package il.ac.afeka.fdp.software.service;
+package il.ac.afeka.fdp.software.infra;
 
-import il.ac.afeka.fdp.software.crud.SoftwareCrud;
+import il.ac.afeka.fdp.software.dao.SoftwareCrud;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

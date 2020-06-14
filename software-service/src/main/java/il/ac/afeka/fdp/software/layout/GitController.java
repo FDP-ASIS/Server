@@ -1,6 +1,6 @@
-package il.ac.afeka.fdp.software.controller;
+package il.ac.afeka.fdp.software.layout;
 
-import il.ac.afeka.fdp.software.service.GitService;
+import il.ac.afeka.fdp.software.infra.GitService;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;

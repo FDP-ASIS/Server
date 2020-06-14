@@ -1,8 +1,8 @@
-package il.ac.afeka.fdp.software.service;
+package il.ac.afeka.fdp.software.infra;
 
-import il.ac.afeka.fdp.software.crud.SoftwareCrud;
+import il.ac.afeka.fdp.software.dao.SoftwareCrud;
 import il.ac.afeka.fdp.software.exceptions.SoftwareAlreadyExistsException;
-import il.ac.afeka.fdp.software.model.Software;
+import il.ac.afeka.fdp.software.data.Software;
 import il.ac.afeka.fdp.software.exceptions.SoftwareNotFoundException;
 import il.ac.afeka.fdp.software.utils.FinalStrings;
 import org.springframework.beans.factory.annotation.Autowired;

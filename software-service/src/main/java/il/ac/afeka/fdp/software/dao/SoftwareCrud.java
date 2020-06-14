@@ -1,6 +1,6 @@
-package il.ac.afeka.fdp.software.crud;
+package il.ac.afeka.fdp.software.dao;
 
-import il.ac.afeka.fdp.software.model.Software;
+import il.ac.afeka.fdp.software.data.Software;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;

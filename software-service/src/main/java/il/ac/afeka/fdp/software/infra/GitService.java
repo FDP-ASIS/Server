@@ -1,4 +1,4 @@
-package il.ac.afeka.fdp.software.service;
+package il.ac.afeka.fdp.software.infra;
 
 import org.json.JSONException;
 

@@ -1,4 +1,4 @@
-package il.ac.afeka.fdp.software.model;
+package il.ac.afeka.fdp.software.data;
 
 import lombok.Data;
 import lombok.NonNull;

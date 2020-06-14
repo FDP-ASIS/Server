@@ -1,9 +1,9 @@
-package il.ac.afeka.fdp.software.controller;
+package il.ac.afeka.fdp.software.layout;
 
-import il.ac.afeka.fdp.software.model.Software;
-import il.ac.afeka.fdp.software.model.SoftwareBoundary;
+import il.ac.afeka.fdp.software.data.Software;
+import il.ac.afeka.fdp.software.data.SoftwareBoundary;
 import il.ac.afeka.fdp.software.exceptions.BadReqException;
-import il.ac.afeka.fdp.software.service.SoftwareService;
+import il.ac.afeka.fdp.software.infra.SoftwareService;
 import il.ac.afeka.fdp.software.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

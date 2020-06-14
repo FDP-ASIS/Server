@@ -1,6 +1,6 @@
-package il.ac.afeka.fdp.software.service;
+package il.ac.afeka.fdp.software.infra;
 
-import il.ac.afeka.fdp.software.model.Software;
+import il.ac.afeka.fdp.software.data.Software;
 
 import java.util.List;
 
