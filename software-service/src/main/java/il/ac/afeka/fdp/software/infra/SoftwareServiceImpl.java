@@ -1,83 +1,57 @@
 package il.ac.afeka.fdp.software.infra;
 
-import il.ac.afeka.fdp.software.dao.SoftwareCrud;
-import il.ac.afeka.fdp.software.exceptions.SoftwareAlreadyExistsException;
-import il.ac.afeka.fdp.software.data.Software;
-import il.ac.afeka.fdp.software.exceptions.SoftwareNotFoundException;
-import il.ac.afeka.fdp.software.utils.FinalStrings;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import il.ac.afeka.fdp.software.data.RepoData;
+import il.ac.afeka.fdp.software.data.ScriptType;
+import il.ac.afeka.fdp.software.exceptions.ServerErrorException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class SoftwareServiceImpl implements SoftwareService {
 
-    private SoftwareCrud softwareCrud;
+    @Value("${repo}")
+    private String baseRepoUrl;
+//    private final RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    public SoftwareServiceImpl(SoftwareCrud softwareCrud) {
-        super();
-        this.softwareCrud = softwareCrud;
-    }
-
-    @Override
-    public Software create(Software software) {
-        String name = software.getSoftwareName();
-        if (this.softwareCrud.existsSoftwareBySoftwareName(name)) {
-            throw new SoftwareAlreadyExistsException(FinalStrings.SOFTWARE_EXISTS + name);
+    public RepoData[] getUrl(String url) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            return restTemplate.getForEntity(new URI(baseRepoUrl + url), RepoData[].class).getBody();
+        } catch (URISyntaxException e) {
+            throw new ServerErrorException();
         }
-        return this.softwareCrud.save(software);
     }
 
     @Override
-    public Software getSoftwareByName(String softwareName) {
-        Software softwareToReturn = this.softwareCrud.findBySoftwareName(softwareName);
-        if (softwareToReturn == null) {
-            throw new SoftwareNotFoundException(FinalStrings.NO_SOFTWARE_FOUND + softwareName);
-        }
-        return softwareToReturn;
+    public List<String> getAllSoftware(int page, int size, Sort.Direction direction) {
+        Stream<String> stringStream = Arrays.stream(getUrl("/contents/scripts")).map(RepoData::getName);
+        if (direction == Sort.Direction.DESC)
+            stringStream = stringStream.sorted(Comparator.reverseOrder());
+        return stringStream.skip(page * size).limit(size).collect(Collectors.toList());
     }
 
     @Override
-    public List<Software> getAllSoftware(int page, int size, String sort) {
-        return this.softwareCrud.findAll(PageRequest.of(page, size, Sort.Direction.ASC, sort)).getContent();
+    public List<String> getVersionsOfSoftware(String softwareName) {
+        return null;
     }
 
     @Override
-    public List<Software> getSoftwareBySoftwareName(String softwareName, int page, int size, String sort) {
-        return this.softwareCrud.findAllBySoftwareName(softwareName, PageRequest.of(page, size, Sort.Direction.ASC, sort));
+    public List<String> getSoftwareByNameStartingWith(String softwareName) {
+        return null;
     }
 
     @Override
-    public List<Software> getSoftwareByVersion(String version, int page, int size, String sort) {
-        return this.softwareCrud.findAllByVersion(version, PageRequest.of(page, size, Sort.Direction.ASC, sort));
-    }
-
-    @Override
-    public void editSoftware(String softwareName, Software software) {
-        Software softwareToEdit = this.softwareCrud.findBySoftwareName(softwareName);
-        if (softwareToEdit == null) {
-            throw new SoftwareNotFoundException(FinalStrings.NO_SOFTWARE_FOUND + softwareName);
-        }
-        softwareToEdit.setSoftwareName(software.getSoftwareName());
-        softwareToEdit.setVersion(software.getVersion());
-    }
-
-    @Override
-    public void deleteSoftwareByName(String softwareName) {
-        Software softwareToDelete = this.softwareCrud.findBySoftwareName(softwareName);
-        if (softwareToDelete == null) {
-            throw new SoftwareNotFoundException(FinalStrings.NO_SOFTWARE_FOUND + softwareName);
-        }
-
-        this.softwareCrud.delete(softwareToDelete);
-    }
-
-    @Override
-    public void deleteAll() {
-        this.softwareCrud.deleteAll();
+    public String getScriptURL(String softwareName, String version, ScriptType scriptType) {
+        return null;
     }
 }

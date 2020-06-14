@@ -1,15 +1,27 @@
 package il.ac.afeka.fdp.software.utils;
 
 public interface FinalStrings {
+
+    //CODES
+
+    //100
+
+    //200
     String OK = "OK"; //code 200
-    String SPECIFIC_SOFTWARE_DELETED = "Specific software deleted"; // code 200
-    String SPECIFIC_SOFTWARE_EDITED = "Specific software edited"; //code 200
-    String SOFTWARE_CREATED = "Software created successfully!"; // code 201
-    String SOFTWARE_DELETED = "All Software deleted"; // code 204
-    String CREATE_BAD_REQUEST = "Could not create the software, please verify that all the required parameters are filled correctly"; // code 400
-    String BAD_INPUT = "Bad request property input"; // code 400
-    String UNAUTHORIZED = "Unauthorized, you can not allowed to do this"; // code 401
-    String NO_SOFTWARE_FOUND = "Software with softwareName not found: "; // code 404
-    String SOFTWARE_EXISTS = "Failed to create, software with this name already exists: "; // code 409
+    String RESOURCE_DELETED = "Resource has deleted"; // code 200
+    String RESOURCE_EDITED = "Resource has edited"; //code 200
+    String RESOURCE_CREATED = "Resource has created successfully"; //code 201
+    String ALL_RESOURCES_DELETED = "All resource has deleted"; //code 204
+
+    //300
+
+    //400
+    String BAD_REQUEST = "Bad request property input"; // code 400
+    String UNAUTHORIZED = "You are not authorized to view the resource"; // code 401
+    String FORBIDDEN = "Accessing the resource you were trying to reach is forbidden"; // code 403
+    String RESOURCE_NOT_FOUND = "Resource not found: "; // code 404
+    String RESOURCE_EXISTS = "Failed to create the new resource because it's already exists: "; // code 409
+
+    //500
     String SERVER_ERROR = "Internal server errors"; // code 500
 }

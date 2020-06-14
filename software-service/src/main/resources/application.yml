@@ -1,4 +1,5 @@
 # --- CONFIGURATIONS --- #
+repo: https://api.github.com/repos/FDP-ASIS/Repository
 
 server:
   port: 8083
