@@ -1,6 +1,6 @@
 package il.ac.afeka.fdp.software.exceptions;
 
-public class SoftwareNotFoundException extends RuntimeException {
+public class SoftwareNotFoundException extends NotFoundException {
     public SoftwareNotFoundException() {
     }
 

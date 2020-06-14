@@ -1,8 +1,11 @@
 package il.ac.afeka.fdp.software.exceptions;
 
+import il.ac.afeka.fdp.software.utils.FinalStrings;
+
 public class BadReqException extends RuntimeException{
 
     public BadReqException() {
+        this(FinalStrings.BAD_REQUEST);
     }
 
     public BadReqException(String message) {
@@ -17,7 +20,4 @@ public class BadReqException extends RuntimeException{
         super(message, cause);
     }
 
-    public BadReqException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
