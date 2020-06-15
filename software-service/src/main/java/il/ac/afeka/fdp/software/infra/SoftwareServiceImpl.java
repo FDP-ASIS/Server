@@ -56,7 +56,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Override
     public List<String> getSoftwareVersions(String name, int page, int size) {
         try {
-            return Arrays.stream(getUrl(name.toLowerCase())).map(RepoData::getName).skip(page * size).limit(size).collect(Collectors.toList());
+            return Arrays.stream(getUrl(name.toLowerCase())).map(RepoData::getName).sorted(Comparator.reverseOrder()).skip(page * size).limit(size).collect(Collectors.toList());
         } catch (HttpClientErrorException e) {
             throw new SoftwareNotFoundException();
         }
