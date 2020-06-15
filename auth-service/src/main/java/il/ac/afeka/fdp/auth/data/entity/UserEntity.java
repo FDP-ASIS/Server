@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.auth.data.entity;
 
+import il.ac.afeka.fdp.auth.data.Name;
 import il.ac.afeka.fdp.auth.data.UserRoleEnum;
 import lombok.Data;
 import lombok.NonNull;
@@ -18,6 +19,7 @@ public class UserEntity {
     @NonNull
     private String username;
     private String password;
+    private Name name;
     @NonNull
     private String email;
     private UserRoleEnum role;
