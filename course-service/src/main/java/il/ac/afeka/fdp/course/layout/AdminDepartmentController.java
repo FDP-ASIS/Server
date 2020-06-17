@@ -1,6 +1,10 @@
 package il.ac.afeka.fdp.course.layout;
 
+import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
 import il.ac.afeka.fdp.course.data.boundary.DepartmentBoundary;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
+import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
+import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.infra.DepartmentService;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import io.swagger.annotations.ApiOperation;
@@ -54,10 +58,13 @@ public class AdminDepartmentController {
 
 
     /**
+     *
      * @param page      to start
      * @param size      of the page
      * @param direction to sort
      * @param sort      properties to sort
+     * @param filterType type
+     * @param filterValue filter
      * @return list of departments
      */
     @ApiOperation(
@@ -74,9 +81,41 @@ public class AdminDepartmentController {
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sort
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sort,
+            @RequestParam(name = "filterType", required = false, defaultValue = "") String filterType,
+            @RequestParam(name = "filterValue", required = false, defaultValue = "") String filterValue
     ) {
-        return this.departmentService.getAllDepartments(page, size, direction, sort).stream().map(DepartmentBoundary::new).toArray(DepartmentBoundary[]::new);
+        List<DepartmentEntity> rv;
+        if (filterType.isEmpty()) {
+            rv =  this.departmentService.getAllDepartments(page, size, direction, sort);
+        } else {
+            try {
+                if (filterValue.isEmpty())
+                    throw new RuntimeException("Value to search is empty");
+                switch (filterType) {
+                    case "name":
+                        rv = this.departmentService.getDepartmentsByName(filterValue, page, size, direction, sort);
+                        break;
+                    case "code":
+                        try {
+                            rv = this.departmentService.getDepartmentsByCode(Integer.parseInt(filterValue), page, size, direction, sort);
+                        } catch (NumberFormatException e) {
+                            throw new BadReqException("Can't convert { " + filterValue + " } to int");
+                        }
+                        break;
+
+                    default:
+                        throw new BadReqException("can't search by this type " + filterType);
+                }
+
+            } catch (Exception e) {
+                throw new BadReqException(e.getMessage());
+            }
+        }
+        return rv
+                .stream()
+                .map(DepartmentBoundary::new)
+                .toArray(DepartmentBoundary[]::new);
     }
 
     /**

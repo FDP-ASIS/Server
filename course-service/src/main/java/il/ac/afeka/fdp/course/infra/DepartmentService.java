@@ -19,4 +19,7 @@ public interface DepartmentService {
 
     void deleteAll();
 
+    List<DepartmentEntity> getDepartmentsByName(String name, int page, int size, Sort.Direction direction, String sort);
+
+    List<DepartmentEntity> getDepartmentsByCode(int code, int page, int size, Sort.Direction direction, String sort);
 }
