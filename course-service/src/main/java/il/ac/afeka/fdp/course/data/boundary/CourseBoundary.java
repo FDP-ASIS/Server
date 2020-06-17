@@ -15,9 +15,9 @@ public class CourseBoundary {
     private Long code;
     private String name;
     private DepartmentBoundary department;
-    //    private List<String> softwareIdList;
     private List<User> studentsIdList;
     private List<User> lecturersIdList;
+    private List<SoftwareBoundary> softwareIdList;
 
     public CourseBoundary(CourseEntity courseEntity) {
         this.code = courseEntity.getCode();
@@ -25,6 +25,13 @@ public class CourseBoundary {
         this.department = new DepartmentBoundary(courseEntity.getDepartment());
         this.studentsIdList = courseEntity.getStudentsIdList();
         this.lecturersIdList = courseEntity.getLecturersIdList();
+        try{
+            this.softwareIdList = (List<SoftwareBoundary>) courseEntity.getSoftwareDetails().stream().forEach((v) ->v.clone());
+        }catch (CloneNotSupportedException e) {
+            softwareIdList = null;
+            e.printStackTrace();
+        }
+
         // TODO add software list
     }
 

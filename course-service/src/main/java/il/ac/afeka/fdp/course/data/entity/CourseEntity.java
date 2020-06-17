@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.data.entity;
 
 import il.ac.afeka.fdp.course.data.User;
+import il.ac.afeka.fdp.course.data.boundary.SoftwareBoundary;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -26,11 +27,10 @@ public class CourseEntity {
     @DBRef
     @NotBlank
     private DepartmentEntity department;
-    //    @NonNull
-//    @DBRef
-//    private List<String> softwareIdList;
     @DBRef
     private List<User> studentsIdList; //= new ArrayList<>();
     @DBRef
     private List<User> lecturersIdList;// = new ArrayList<>();
+    @DBRef
+    private List<SoftwareBoundary> softwareDetails; // = new ArrayList<>();
 }
