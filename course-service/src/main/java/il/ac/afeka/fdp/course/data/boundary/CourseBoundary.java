@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -26,16 +25,7 @@ public class CourseBoundary {
         this.department = new DepartmentBoundary(courseEntity.getDepartment());
         this.studentsIdList = courseEntity.getStudentsIdList();
         this.lecturersIdList = courseEntity.getLecturersIdList();
-        this.softwareIdList = (List<SoftwareBoundary>) courseEntity.getSoftwareDetails().stream().map(softwareBoundary -> {
-            try {
-                return softwareBoundary.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            return softwareBoundary;
-        }).collect(Collectors.toList());
-
-        // TODO add software list
+        this.softwareIdList = courseEntity.getSoftwareDetails();
     }
 
     public CourseEntity convertToEntity() {

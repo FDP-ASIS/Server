@@ -33,6 +33,7 @@ public class CourseServiceImpl implements CourseService {
 //                .peek(courseEntity -> courseEntity.setDepartment(departmentService.getDepartmentByCode(courseEntity.getDepartment().getCode())))
                 .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setSoftwareDetails(new ArrayList<>()))
                 .collect(Collectors.toList()));
 
 //        return this.courseCrud.saveAll(courses);
@@ -63,6 +64,7 @@ public class CourseServiceImpl implements CourseService {
         CourseEntity courseToEdit = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         course.setStudentsIdList(courseToEdit.getStudentsIdList());
         course.setLecturersIdList(courseToEdit.getLecturersIdList());
+        course.setSoftwareDetails(courseToEdit.getSoftwareDetails());
         if (course.getName().isEmpty())
             course.setName(courseToEdit.getName());
         if (course.getDepartment() == null)
