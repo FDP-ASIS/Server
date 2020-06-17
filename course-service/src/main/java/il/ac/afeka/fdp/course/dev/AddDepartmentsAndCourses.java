@@ -25,9 +25,9 @@ public class AddDepartmentsAndCourses implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try {
             departmentService.create(Arrays.asList(
-                    new DepartmentEntity(10, "SOFTWARE_ENGINEER"),
+                    new DepartmentEntity(10, "SOFTWARE_ENGINEERING"),
                     new DepartmentEntity(20, "INDUSTRIAL_ENGINEERING_MANAGEMENT"),
-                    new DepartmentEntity(30, "ELECTRICAL_ENGINEER")
+                    new DepartmentEntity(30, "ELECTRICAL_ENGINEERING")
             ));
             courseService.create(Arrays.asList(
                     CourseEntity.of(12345, "course1", new DepartmentEntity(10, null)),

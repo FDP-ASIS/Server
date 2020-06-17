@@ -32,7 +32,7 @@ public interface FinalStrings {
     String USER_ID_MUST_BE_DIGITS = "User id must be digits only: ";
 
     String USER_ONE_OR_MORE_ID = "There are one or more users which exists with one or more of the ids that you have supplied";
-    String USER_NOT_EXISTS = "User doe's exists with id ";
+    String USER_NOT_EXISTS = "User does not exists with id ";
     String USER_ALREADY_EXISTS = "User already exists with id ";
 
 }

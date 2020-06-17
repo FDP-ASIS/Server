@@ -30,11 +30,11 @@ public interface FinalStrings {
 
     //COURSE
     String COURSE_ONE_OR_MORE_CODES = "There are one or more course which exists with one or more of the codes that you have supplied";
-    String COURSE_NOT_EXISTS = "Course doe's exists with code ";
+    String COURSE_NOT_EXISTS = "Course does not exists with code ";
     String COURSE_ALREADY_EXISTS = "Course already exists with code ";
 
     //DEPARTMENT
     String DEPARTMENT_ALREADY_EXISTS_ONE_OR_MORE_CODES = "There are one or more departments which exists with one or more of the codes that you have supplied";
-    String DEPARTMENT_NOT_EXISTS = "Department doe's exists with code ";
+    String DEPARTMENT_NOT_EXISTS = "Department does not exists with code ";
     String DEPARTMENT_ALREADY_EXISTS = "Department already exists with code ";
 }
