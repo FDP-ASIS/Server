@@ -12,7 +12,7 @@ public class SoftwareBoundary implements Cloneable {
     private String version;
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public SoftwareBoundary clone() throws CloneNotSupportedException {
         super.clone();
         return new SoftwareBoundary(name, version);
     }
