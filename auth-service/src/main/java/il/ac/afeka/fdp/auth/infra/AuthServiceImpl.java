@@ -4,7 +4,7 @@ import il.ac.afeka.fdp.auth.dao.UserRepository;
 import il.ac.afeka.fdp.auth.data.Token;
 import il.ac.afeka.fdp.auth.data.UserWithToken;
 import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
-import il.ac.afeka.fdp.auth.exception.InvalidCredentials;
+import il.ac.afeka.fdp.auth.exceptions.InvalidCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
