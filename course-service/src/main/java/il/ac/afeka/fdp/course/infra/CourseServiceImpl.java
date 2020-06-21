@@ -10,9 +10,11 @@ import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +36,8 @@ public class CourseServiceImpl implements CourseService {
                 .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setSoftwareDetails(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
-
-//        return this.courseCrud.saveAll(courses);
     }
 
     @Override

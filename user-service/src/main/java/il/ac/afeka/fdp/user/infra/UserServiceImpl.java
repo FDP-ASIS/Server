@@ -9,11 +9,14 @@ import il.ac.afeka.fdp.user.exception.user.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@EnableMongoAuditing
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
                 })
                 .peek(userEntity -> userEntity.setRole(role))
                 .peek(userEntity -> userEntity.setPassword(encryptPassword(String.valueOf(userEntity.getId()))))
+                .peek(userEntity -> userEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
     }
 
@@ -62,11 +66,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserById(UserEntity user) {
-        if (!this.userDao.existsById(user.getId()))
+    public void updateUserById(String id, UserEntity user) {
+        /*if (!this.userDao.existsById(user.getId()))
             throw new UserNotFound(user.getId());
-        this.userDao.save(user);
+        this.userDao.save(user); */
 
+        UserEntity userToEdit = this.userDao.findById(id).orElseThrow(() -> new UserNotFound(id));
+        userToEdit.setUsername(user.getUsername());
+        userToEdit.setEmail(user.getEmail());
+        userToEdit.setName(user.getName());
+        this.userDao.save(userToEdit);
     }
 
     @Override

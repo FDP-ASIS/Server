@@ -6,13 +6,17 @@ import il.ac.afeka.fdp.user.data.UserRoleEnum;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @Document(collection = "USERS")
@@ -25,7 +29,7 @@ public class UserEntity {
     private final String id;
     @Indexed(unique = true)
     @NonNull
-    @Size(min = 5)
+    @Size(min = 5, max = 20)
     private String username;
     @NonNull
     private Name name;
@@ -35,4 +39,8 @@ public class UserEntity {
     private String email;
     private String password;
     private UserRoleEnum role;
+    @CreatedDate
+    private Date createdDate;
+    @LastModifiedDate
+    private Date lastModifiedDate;
 }

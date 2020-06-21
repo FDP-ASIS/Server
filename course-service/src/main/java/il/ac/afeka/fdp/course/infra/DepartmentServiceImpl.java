@@ -11,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -21,11 +23,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentEntity> create(List<DepartmentEntity> departments) {
         if (departments.stream().anyMatch(entity -> entity.getName() == null || entity.getName().isEmpty()))
-            throw new BadReqException(FinalStrings.EMPTY_FILED);
+            throw new BadReqException(FinalStrings.EMPTY_FIELD);
         if (departments.stream().anyMatch(entity -> this.departmentCrud.existsById(entity.getCode()))) {
             throw new DepartmentAlreadyExistsException();
         }
-        return this.departmentCrud.saveAll(departments);
+        return this.departmentCrud.saveAll(departments.stream()
+        .peek(departmentEntity -> departmentEntity.setCreatedDate(new Date()))
+                .collect(Collectors.toList()));
     }
 
     @Override
