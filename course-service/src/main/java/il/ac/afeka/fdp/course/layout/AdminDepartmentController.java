@@ -81,7 +81,7 @@ public class AdminDepartmentController {
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
-            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sort,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "code") String sort,
             @RequestParam(name = "filterType", required = false, defaultValue = "") String filterType,
             @RequestParam(name = "filterValue", required = false, defaultValue = "") String filterValue
     ) {
