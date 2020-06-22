@@ -7,14 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Name implements Cloneable {
+public class Name {
     private String first;
     private String middle;
     private String last;
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        super.clone();
-        return new Name(first, middle, last);
-    }
 }

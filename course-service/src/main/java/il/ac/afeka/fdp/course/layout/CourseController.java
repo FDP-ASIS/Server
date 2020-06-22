@@ -39,7 +39,7 @@ public class CourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @GetMapping(
-            path = "/course/{code}",
+            path = "/{code}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public CourseBoundary getCourseByCode(@PathVariable("code") long code) {
         return new CourseBoundary(this.courseService.getCourseByCode(code));

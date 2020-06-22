@@ -8,10 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
@@ -26,7 +22,7 @@ public class SoftwareController {
 
 
     @Autowired
-    private SoftwareService userService;
+    private SoftwareService softwareService;
 
 
     @ApiOperation(value = "Get all the software in the system", nickname = "allSoftware")
@@ -41,7 +37,7 @@ public class SoftwareController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction) {
-        return userService.getAllSoftware(page, size, direction).toArray(String[]::new);
+        return softwareService.getAllSoftware(page, size, direction).toArray(String[]::new);
     }
 
 
@@ -59,7 +55,7 @@ public class SoftwareController {
             @PathVariable(value = "name") String name,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
-        return userService.getSoftwareVersions(name, page, size).toArray(String[]::new);
+        return softwareService.getSoftwareVersions(name, page, size).toArray(String[]::new);
     }
 
     @ApiOperation(value = "Get script", nickname = "getScript")
@@ -76,6 +72,6 @@ public class SoftwareController {
             @PathVariable(value = "name") String name,
             @PathVariable(value = "version") String version,
             @RequestParam(value = "type") ScriptType type) {
-        return new RepoData(null, userService.getScriptURL(name, version, type));
+        return new RepoData(null, softwareService.getScriptURL(name, version, type));
     }
 }

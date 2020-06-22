@@ -32,19 +32,14 @@ public class UserBoundary {
         this.username = userEntity.getUsername();
         this.email = userEntity.getEmail();
         this.role = userEntity.getRole();
-        try {
-            this.name = (Name) userEntity.getName().clone();
-        } catch (CloneNotSupportedException e) {
-            this.name = null;
-            e.printStackTrace();
-        }
+        this.name = userEntity.getName();
     }
 
     public UserEntity convertToEntity() {
-        return UserEntity.of(id, username,name, email);
+        return UserEntity.of(id, username, name, email);
     }
 
     public UserEntity convertToEntity(String id) {
-        return UserEntity.of(id, username,name, email);
+        return UserEntity.of(id, username, name, email);
     }
 }

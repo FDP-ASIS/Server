@@ -1,4 +1,4 @@
-package il.ac.afeka.fdp.auth.exception;
+package il.ac.afeka.fdp.auth.exceptions;
 
 public class UserNotFound extends RuntimeException{
 }

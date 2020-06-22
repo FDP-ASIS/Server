@@ -42,7 +42,6 @@ public class AuthController {
         return this.authService.login(UsernamePasswordBoundary.getUsername(), UsernamePasswordBoundary.getPassword());
     }
 
-
     /**
      *
      * @param token string

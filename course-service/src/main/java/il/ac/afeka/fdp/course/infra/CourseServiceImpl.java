@@ -10,9 +10,11 @@ import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +35,9 @@ public class CourseServiceImpl implements CourseService {
 //                .peek(courseEntity -> courseEntity.setDepartment(departmentService.getDepartmentByCode(courseEntity.getDepartment().getCode())))
                 .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setSoftwareDetails(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
-
-//        return this.courseCrud.saveAll(courses);
     }
 
     @Override
@@ -63,6 +65,7 @@ public class CourseServiceImpl implements CourseService {
         CourseEntity courseToEdit = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         course.setStudentsIdList(courseToEdit.getStudentsIdList());
         course.setLecturersIdList(courseToEdit.getLecturersIdList());
+        course.setSoftwareDetails(courseToEdit.getSoftwareDetails());
         if (course.getName().isEmpty())
             course.setName(courseToEdit.getName());
         if (course.getDepartment() == null)

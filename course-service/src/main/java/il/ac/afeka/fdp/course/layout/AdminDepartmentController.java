@@ -42,6 +42,7 @@ public class AdminDepartmentController {
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.RESOURCE_EXISTS),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -75,6 +76,7 @@ public class AdminDepartmentController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, response = DepartmentBoundary[].class, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public DepartmentBoundary[] getAllCoursesByFilter(
@@ -151,7 +153,7 @@ public class AdminDepartmentController {
             value = "Delete specific department by department's code"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
@@ -171,6 +173,7 @@ public class AdminDepartmentController {
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.ALL_RESOURCES_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @DeleteMapping
     @ResponseStatus(code = HttpStatus.NO_CONTENT)

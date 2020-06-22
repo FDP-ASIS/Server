@@ -37,6 +37,7 @@ public class AdminUserController {
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_CONFLICT, message = FinalStrings.RESOURCE_EXISTS),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @PostMapping(value = "/signup/{role}", name = "sign up users by admin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -59,7 +60,8 @@ public class AdminUserController {
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN)
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
     @GetMapping(value = "/all", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
     List<UserBoundary> getAllUsers(
@@ -79,6 +81,7 @@ public class AdminUserController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @GetMapping(value = "/{id}", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
     UserBoundary getAllUsers(
@@ -91,9 +94,10 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Delete all users", nickname = "deleteAllUsers")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.ALL_RESOURCES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.ALL_RESOURCES_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @DeleteMapping(value = "/", name = "Delete all the users in the system")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -104,11 +108,12 @@ public class AdminUserController {
     /**
      * @param id user's id need to delete
      */
-    @ApiOperation(value = "Delete a users", nickname = "deleteUser")
+    @ApiOperation(value = "Delete a user", nickname = "deleteUser")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = FinalStrings.RESOURCE_DELETED),
-            @ApiResponse(code = 401, message = FinalStrings.UNAUTHORIZED),
-            @ApiResponse(code = 403, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.ALL_RESOURCES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @DeleteMapping(value = "/{id}", name = "Delete user by id")
     void deleteUserById(
@@ -127,11 +132,13 @@ public class AdminUserController {
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @PutMapping(value = "/{id}", name = "Update user by id")
     void updateUserById(
             @PathVariable(value = "id") String id,
             @RequestBody UserBoundary userBoundary) {
-        this.userService.updateUserById(userBoundary.convertToEntity(id));
+        this.userService.updateUserById(id, userBoundary.getId() != null ? userBoundary.convertToEntity() : userBoundary.convertToEntity(id));
+        //this.userService.updateUserById(userBoundary.convertToEntity(id));
     }
 }

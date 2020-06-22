@@ -14,6 +14,6 @@ public interface UserService {
     UserEntity getUserById(String id);
     void deleteAllUsers();
     void deleteUserById(String id);
-    void updateUserById(UserEntity user);
+    void updateUserById(String id, UserEntity user);
     UserEntity updateUserPasswordById(String id, String password);
 }

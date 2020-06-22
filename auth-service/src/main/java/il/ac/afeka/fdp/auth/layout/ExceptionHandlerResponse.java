@@ -1,7 +1,7 @@
 package il.ac.afeka.fdp.auth.layout;
 
-import il.ac.afeka.fdp.auth.exception.InvalidCredentials;
-import il.ac.afeka.fdp.auth.exception.UserNotFound;
+import il.ac.afeka.fdp.auth.exceptions.InvalidCredentials;
+import il.ac.afeka.fdp.auth.exceptions.UserNotFound;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -49,7 +49,12 @@ public class AdminCourseController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
     public List<CourseBoundary> createCourse(@RequestBody List<CourseBoundary> courses) {
-        return this.courseService.create(courses.stream().map(CourseBoundary::convertToEntity).collect(Collectors.toList())).stream().map(CourseBoundary::new).collect(Collectors.toList());
+        return this.courseService.create(courses.stream()
+                .map(CourseBoundary::convertToEntity)
+                .collect(Collectors.toList()))
+                .stream()
+                .map(CourseBoundary::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -153,7 +158,7 @@ public class AdminCourseController {
             notes = "Remove this course from the database.\n" +
                     "Can be called only by Admin/Lecturer after authentication")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
