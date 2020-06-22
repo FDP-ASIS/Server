@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.DepartmentCrud;
+import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
 import il.ac.afeka.fdp.course.exceptions.department.DepartmentAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.department.DepartmentNotFoundException;
@@ -66,5 +67,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void deleteAll() {
         this.departmentCrud.deleteAll();
+    }
+
+    @Override
+    public List<DepartmentEntity> getDepartmentsByName(String name, int page, int size, Sort.Direction direction, String sort) {
+        return this.departmentCrud.findByNameRegex(".*"+name+".*", PageRequest.of(page, size, direction, sort));
+    }
+
+    @Override
+    public List<DepartmentEntity> getDepartmentsByCode(int code, int page, int size, Sort.Direction direction, String sort) {
+        return this.departmentCrud.findByCode(code, PageRequest.of(page, size, direction, sort));
     }
 }
