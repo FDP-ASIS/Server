@@ -65,7 +65,7 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Override
     public String getScriptURL(String name, String version, ScriptType scriptType) {
         try {
-            return Arrays.stream(getUrl(name.toLowerCase() + "/" + encodeValue(version) + "/" + scriptType.getAction()))
+            return Arrays.stream(getUrl(encodeValue(name.toLowerCase()) + "/" + encodeValue(version) + "/" + scriptType.getAction()))
                     .findFirst().orElseThrow().getDownload_url();
         } catch (HttpClientErrorException | NoSuchElementException e) {
             throw new BadReqException();
