@@ -77,7 +77,7 @@ public class AdminDepartmentController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DepartmentBoundary[] getAllCoursesByFilter(
+    public DepartmentBoundary[] getAllDepartmentsByFilter(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "direction", required = false, defaultValue = "ASC") Sort.Direction direction,
@@ -136,7 +136,7 @@ public class AdminDepartmentController {
     @PutMapping(
             path = "/{code}",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void editCourse(
+    public void editDepartment(
             @PathVariable("code") int code,
             @RequestBody DepartmentBoundary departmentBoundary) {
         this.departmentService.editDepartment(code, departmentBoundary.getCode() != null ? departmentBoundary.convertToEntity() : departmentBoundary.convertToEntity(code));
@@ -158,7 +158,7 @@ public class AdminDepartmentController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @DeleteMapping(path = "/{code}")
-    public void deleteCourseByCode(@PathVariable("code") int code) {
+    public void deleteDepartmentByCode(@PathVariable("code") int code) {
         this.departmentService.deleteDepartmentByCode(code);
     }
 
