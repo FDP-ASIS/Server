@@ -6,8 +6,10 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface DepartmentService {
-    List<DepartmentEntity> create(List<DepartmentEntity> departments);
     DepartmentEntity getDepartmentByCode(int code);
+    List<DepartmentEntity> create(List<DepartmentEntity> departments);
+    List<DepartmentEntity> getDepartmentsByCode(int code, int page, int size, Sort.Direction direction, String sort);
+    List<DepartmentEntity> getDepartmentsByName(String name, int page, int size, Sort.Direction direction, String sort);
     List<DepartmentEntity> getAllDepartments(int page, int size, Sort.Direction direction, String sort);
     void editDepartment(int departmentCode, DepartmentEntity department);
     void deleteDepartmentByCode(int departmentCode);

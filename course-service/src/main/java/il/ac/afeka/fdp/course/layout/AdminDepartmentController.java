@@ -1,8 +1,6 @@
 package il.ac.afeka.fdp.course.layout;
 
-import il.ac.afeka.fdp.course.data.boundary.CourseBoundary;
 import il.ac.afeka.fdp.course.data.boundary.DepartmentBoundary;
-import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.infra.DepartmentService;
