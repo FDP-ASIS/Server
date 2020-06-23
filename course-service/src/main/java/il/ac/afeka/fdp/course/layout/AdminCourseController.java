@@ -213,8 +213,8 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @PatchMapping(path = "/{code}")
-    public void addLecturerToCourse(@PathVariable(name = "code") long code,
+    public CourseBoundary addLecturerToCourse(@PathVariable(name = "code") long code,
                                     @RequestParam(name = "id") String id) {
-        this.courseService.assign(code,id, UserRole.LECTURER);
+        return new CourseBoundary(this.courseService.assign(code,id, UserRole.LECTURER));
     }
 }

@@ -89,7 +89,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void assign(long code, String id, UserRole role) {
+    public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         switch (role) {
             case STUDENT:
@@ -101,6 +101,6 @@ public class CourseServiceImpl implements CourseService {
             default:
                 throw new BadReqException("Role not found");
         }
-        this.courseCrud.save(entity);
+        return this.courseCrud.save(entity);
     }
 }
