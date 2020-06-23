@@ -98,7 +98,7 @@ public class AdminCourseController {
                     throw new RuntimeException("Value to search is empty");
                 switch (filterType) {
                     case "name":
-                        rv = this.courseService.getCoursesByCourseName(filterValue, page, size, direction, sort);
+                        rv = this.courseService.getCoursesByName(filterValue, page, size, direction, sort);
                         break;
 
                     case "code":
@@ -110,14 +110,13 @@ public class AdminCourseController {
                             throw new BadReqException("Can't convert { " + filterValue + " } to int");
                         }
                         break;
-                    case "department":
-                        try {
-                            rv = this.courseService.getCoursesByDepartmentCode(Integer.parseInt(filterValue), page, size, direction, sort);
-                        } catch (NumberFormatException e) {
-                            throw new BadReqException("Can't convert { " + filterValue + " } to int");
-                        }
-                        break;
-
+//                    case "department":
+//                        try {
+//                            rv = this.courseService.getCoursesByDepartmentCode(Integer.parseInt(filterValue), page, size, direction, sort);
+//                        } catch (NumberFormatException e) {
+//                            throw new BadReqException("Can't convert { " + filterValue + " } to int");
+//                        }
+//                        break;
                     default:
                         throw new BadReqException("can't search by this type " + filterType);
                 }

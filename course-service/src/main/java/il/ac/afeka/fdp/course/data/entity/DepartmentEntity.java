@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @RequiredArgsConstructor(staticName = "of")
-@Document(collection = "DEPARTMENTS")
+//@Document(collection = "DEPARTMENTS")
 @AllArgsConstructor
 @NoArgsConstructor
 public class DepartmentEntity {
