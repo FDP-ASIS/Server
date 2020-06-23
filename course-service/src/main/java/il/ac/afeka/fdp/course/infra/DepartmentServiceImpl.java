@@ -73,9 +73,4 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentEntity> getDepartmentsByName(String name, int page, int size, Sort.Direction direction, String sort) {
         return this.departmentCrud.findByNameRegex(".*"+name+".*", PageRequest.of(page, size, direction, sort));
     }
-
-    @Override
-    public List<DepartmentEntity> getDepartmentsByCode(int code, int page, int size, Sort.Direction direction, String sort) {
-        return this.departmentCrud.findByCode(code, PageRequest.of(page, size, direction, sort));
-    }
 }

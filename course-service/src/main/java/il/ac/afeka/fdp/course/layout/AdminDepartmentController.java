@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,12 +58,11 @@ public class AdminDepartmentController {
 
 
     /**
-     *
-     * @param page      to start
-     * @param size      of the page
-     * @param direction to sort
-     * @param sort      properties to sort
-     * @param filterType type
+     * @param page        to start
+     * @param size        of the page
+     * @param direction   to sort
+     * @param sort        properties to sort
+     * @param filterType  type
      * @param filterValue filter
      * @return list of departments
      */
@@ -87,7 +87,7 @@ public class AdminDepartmentController {
     ) {
         List<DepartmentEntity> rv;
         if (filterType.isEmpty()) {
-            rv =  this.departmentService.getAllDepartments(page, size, direction, sort);
+            rv = this.departmentService.getAllDepartments(page, size, direction, sort);
         } else {
             try {
                 if (filterValue.isEmpty())
@@ -98,7 +98,9 @@ public class AdminDepartmentController {
                         break;
                     case "code":
                         try {
-                            rv = this.departmentService.getDepartmentsByCode(Integer.parseInt(filterValue), page, size, direction, sort);
+                            rv = new ArrayList<>() {{
+                                add(departmentService.getDepartmentByCode(Integer.parseInt(filterValue)));
+                            }};
                         } catch (NumberFormatException e) {
                             throw new BadReqException("Can't convert { " + filterValue + " } to int");
                         }
