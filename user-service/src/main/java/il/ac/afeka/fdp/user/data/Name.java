@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Name {
     private String first;
-    private String middle;
     private String last;
 }
