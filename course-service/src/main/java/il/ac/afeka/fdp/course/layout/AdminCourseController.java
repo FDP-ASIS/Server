@@ -217,4 +217,25 @@ public class AdminCourseController {
                                               @PathVariable(name = "id") String id) {
         return new CourseBoundary(this.courseService.assign(code,id, UserRole.LECTURER));
     }
+
+    /**
+     *
+     * @param code course code
+     * @param id lecturer id
+     */
+    @ApiOperation(
+            value = "Remove lecturer from course")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @DeleteMapping(path = "/{code}/{id}")
+    public void removeLecturerFromCourse(@PathVariable(name = "code") long code,
+                                              @PathVariable(name = "id") String id) {
+        this.courseService.remove(code,id, UserRole.LECTURER);
+    }
 }

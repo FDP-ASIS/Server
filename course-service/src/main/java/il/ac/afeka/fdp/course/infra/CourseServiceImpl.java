@@ -8,6 +8,7 @@ import il.ac.afeka.fdp.course.exceptions.course.CourseAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
+import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -108,5 +110,25 @@ public class CourseServiceImpl implements CourseService {
                 throw new BadReqException("Role not found");
         }
         return this.courseCrud.save(entity);
+    }
+
+    @Override
+    public void remove(long code, String id, UserRole role) {
+        CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        List<User> list;
+        switch (role) {
+            case STUDENT:
+                list = entity.getStudents();
+                break;
+            case LECTURER:
+                list = entity.getLecturers();
+                break;
+            default:
+                throw new BadReqException("Role not found");
+        }
+        if (list.stream().noneMatch(user -> user.getId().equals((id))))
+            throw new NotFoundException("User with id: " + id + " not found in this course with role " + role.name());
+        list.removeIf(user -> user.getId().equals((id)));
+        this.courseCrud.save(entity);
     }
 }

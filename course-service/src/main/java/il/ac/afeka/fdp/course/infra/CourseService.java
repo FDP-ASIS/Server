@@ -16,4 +16,5 @@ public interface CourseService {
     void deleteCourseByCode(long courseCode);
     void deleteAll();
     CourseEntity assign(long code, String id, UserRole role);
+    void remove(long code, String id, UserRole role);
 }
