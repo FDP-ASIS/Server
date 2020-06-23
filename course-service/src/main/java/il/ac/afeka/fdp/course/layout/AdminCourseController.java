@@ -94,8 +94,6 @@ public class AdminCourseController {
             rv = this.courseService.getAllCourses(page, size, direction, sort);
         } else {
             try {
-                if (filterValue.isEmpty())
-                    throw new RuntimeException("Value to search is empty");
                 switch (filterType) {
                     case "name":
                         rv = this.courseService.getCoursesByName(filterValue, page, size, direction, sort);
