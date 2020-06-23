@@ -7,6 +7,7 @@ import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import il.ac.afeka.fdp.course.exceptions.course.CourseAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
+import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,9 +34,9 @@ public class CourseServiceImpl implements CourseService {
         }
         return this.courseCrud.saveAll(courses.stream()
 //                .peek(courseEntity -> courseEntity.setDepartment(departmentService.getDepartmentByCode(courseEntity.getDepartment().getCode())))
-                .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
-                .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
-                .peek(courseEntity -> courseEntity.setSoftwareDetails(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setStudents(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setLecturers(new ArrayList<>()))
+                .peek(courseEntity -> courseEntity.setSoftware(new ArrayList<>()))
 //                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
     }
@@ -63,9 +64,9 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void editCourse(long code, CourseEntity course) {
         CourseEntity courseToEdit = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
-        course.setStudentsIdList(courseToEdit.getStudentsIdList());
-        course.setLecturersIdList(courseToEdit.getLecturersIdList());
-        course.setSoftwareDetails(courseToEdit.getSoftwareDetails());
+        course.setStudents(courseToEdit.getStudents());
+        course.setLecturers(courseToEdit.getLecturers());
+        course.setSoftware(courseToEdit.getSoftware());
         if (course.getName().isEmpty())
             course.setName(courseToEdit.getName());
 //        if (course.getDepartment() == null)
@@ -91,12 +92,17 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        //TODO check if user exists in user service
         switch (role) {
             case STUDENT:
-                entity.getStudentsIdList().add(User.of(id));
+                if (entity.getStudents().stream().anyMatch((user -> user.getId().equals(id))))
+                    throw new ConflictException();
+                entity.getStudents().add(User.of(id));
                 break;
             case LECTURER:
-                entity.getLecturersIdList().add(User.of(id));
+                if (entity.getLecturers().stream().anyMatch((user -> user.getId().equals(id))))
+                    throw new ConflictException();
+                entity.getLecturers().add(User.of(id));
                 break;
             default:
                 throw new BadReqException("Role not found");

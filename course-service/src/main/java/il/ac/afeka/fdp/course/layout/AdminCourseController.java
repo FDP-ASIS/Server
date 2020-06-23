@@ -212,9 +212,9 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
-    @PatchMapping(path = "/{code}")
+    @PatchMapping(path = "/{code}/{id}")
     public CourseBoundary addLecturerToCourse(@PathVariable(name = "code") long code,
-                                    @RequestParam(name = "id") String id) {
+                                              @PathVariable(name = "id") String id) {
         return new CourseBoundary(this.courseService.assign(code,id, UserRole.LECTURER));
     }
 }

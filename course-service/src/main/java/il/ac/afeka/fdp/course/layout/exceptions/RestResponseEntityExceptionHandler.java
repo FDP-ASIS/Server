@@ -2,6 +2,7 @@ package il.ac.afeka.fdp.course.layout.exceptions;
 
 import il.ac.afeka.fdp.course.exceptions.root.AlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
+import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         private String error;
     }
 
+    @ExceptionHandler(value = {ConflictException.class})
+    protected ResponseEntity<Object> handleConflict(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, new Message(ex.getMessage()),
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
     @ExceptionHandler(value = {NotFoundException.class})
     protected ResponseEntity<Object> handleResourceNotFound(
             RuntimeException ex, WebRequest request) {

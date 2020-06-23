@@ -15,17 +15,17 @@ public class CourseBoundary {
     private Long code;
     private String name;
 //    private DepartmentBoundary department;
-    private List<User> studentsIdList;
-    private List<User> lecturersIdList;
-    private List<SoftwareBoundary> softwareIdList;
+    private List<User> students;
+    private List<User> lecturers;
+    private List<SoftwareBoundary> software;
 
     public CourseBoundary(CourseEntity courseEntity) {
         this.code = courseEntity.getCode();
         this.name = courseEntity.getName();
 //        this.department = new DepartmentBoundary(courseEntity.getDepartment());
-        this.studentsIdList = courseEntity.getStudentsIdList();
-        this.lecturersIdList = courseEntity.getLecturersIdList();
-        this.softwareIdList = courseEntity.getSoftwareDetails();
+        this.students = courseEntity.getStudents();
+        this.lecturers = courseEntity.getLecturers();
+        this.software = courseEntity.getSoftware();
     }
 
     public CourseEntity convertToEntity() {

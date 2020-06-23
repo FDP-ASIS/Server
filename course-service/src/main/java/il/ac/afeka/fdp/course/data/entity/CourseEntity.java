@@ -31,11 +31,11 @@ public class CourseEntity {
 //    @NotBlank
 //    private DepartmentEntity department;
     @DBRef
-    private List<User> studentsIdList; //= new ArrayList<>();
+    private List<User> students; //= new ArrayList<>();
     @DBRef
-    private List<User> lecturersIdList;// = new ArrayList<>();
+    private List<User> lecturers;// = new ArrayList<>();
     @DBRef
-    private List<SoftwareBoundary> softwareDetails; // = new ArrayList<>();
+    private List<SoftwareBoundary> software; // = new ArrayList<>();
     @CreatedDate
     private Date createdDate;
     @LastModifiedDate
