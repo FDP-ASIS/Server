@@ -26,10 +26,10 @@ public class CourseEntity {
     @NonNull
     @NotBlank
     private String name;
-    @NonNull
-    @DBRef
-    @NotBlank
-    private DepartmentEntity department;
+//    @NonNull
+//    @DBRef
+//    @NotBlank
+//    private DepartmentEntity department;
     @DBRef
     private List<User> studentsIdList; //= new ArrayList<>();
     @DBRef

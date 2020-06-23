@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.dao;
 
 import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

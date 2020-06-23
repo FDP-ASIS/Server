@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+//@RestController
 @RequestMapping("/course/department/admin")
 public class AdminDepartmentController {
 

@@ -23,8 +23,8 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseCrud courseCrud;
 
-    @Autowired
-    private DepartmentService departmentService;
+//    @Autowired
+//    private DepartmentService departmentService;
 
     @Override
     public List<CourseEntity> create(List<CourseEntity> courses) {
@@ -36,7 +36,7 @@ public class CourseServiceImpl implements CourseService {
                 .peek(courseEntity -> courseEntity.setStudentsIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturersIdList(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setSoftwareDetails(new ArrayList<>()))
-                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
+//                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
     }
 
@@ -46,14 +46,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<CourseEntity> getCoursesByCourseName(String name, int page, int size, Sort.Direction direction, String sort) {
+    public List<CourseEntity> getCoursesByName(String name, int page, int size, Sort.Direction direction, String sort) {
         return this.courseCrud.findByNameStartingWith(name, PageRequest.of(page, size, direction, sort));
     }
 
-    @Override
-    public List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort) {
-        return this.courseCrud.findAllByDepartmentCode(departmentCode, PageRequest.of(page, size, direction, sort));
-    }
+//    @Override
+//    public List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort) {
+//        return this.courseCrud.findAllByDepartmentCode(departmentCode, PageRequest.of(page, size, direction, sort));
+//    }
 
     @Override
     public CourseEntity getCourseByCode(long code) {
@@ -68,8 +68,8 @@ public class CourseServiceImpl implements CourseService {
         course.setSoftwareDetails(courseToEdit.getSoftwareDetails());
         if (course.getName().isEmpty())
             course.setName(courseToEdit.getName());
-        if (course.getDepartment() == null)
-            course.setDepartment(courseToEdit.getDepartment());
+//        if (course.getDepartment() == null)
+//            course.setDepartment(courseToEdit.getDepartment());
         this.courseCrud.save(course);
         if (code != course.getCode())
             this.courseCrud.deleteById(code);
