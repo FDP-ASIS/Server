@@ -98,21 +98,22 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        User user;
         try {
-            userClient.getUser(id);
+            user = userClient.getUser(id);
         } catch (Exception e) {
             throw new NotFoundException();
         }
         switch (role) {
             case STUDENT:
-                if (entity.getStudents().stream().anyMatch((user -> user.getId().equals(id))))
+                if (entity.getStudents().stream().anyMatch((u -> u.getId().equals(id))))
                     throw new ConflictException();
-                entity.getStudents().add(User.of(id));
+                entity.getStudents().add(user);
                 break;
             case LECTURER:
-                if (entity.getLecturers().stream().anyMatch((user -> user.getId().equals(id))))
+                if (entity.getLecturers().stream().anyMatch((u -> u.getId().equals(id))))
                     throw new ConflictException();
-                entity.getLecturers().add(User.of(id));
+                entity.getLecturers().add(user);
                 break;
             default:
                 throw new BadReqException("Role not found");
@@ -138,5 +139,21 @@ public class CourseServiceImpl implements CourseService {
             throw new NotFoundException("User with id: " + id + " not found in this course with role " + role.name());
         list.removeIf(user -> user.getId().equals((id)));
         this.courseCrud.save(entity);
+    }
+
+    @Override
+    public List<CourseEntity> findMyCourses(String id, UserRole role) {
+        List<CourseEntity> rv;
+        switch (role) {
+            case LECTURER:
+                rv = this.courseCrud.findAllByLecturers_Id(id);
+                break;
+            case STUDENT:
+                rv = this.courseCrud.findAllByStudents_Id(id);
+                break;
+            default:
+                throw new BadReqException();
+        }
+        return rv;
     }
 }
