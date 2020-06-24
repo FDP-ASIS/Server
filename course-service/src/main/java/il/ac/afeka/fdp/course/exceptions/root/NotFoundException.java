@@ -1,9 +1,11 @@
 package il.ac.afeka.fdp.course.exceptions.root;
 
+import il.ac.afeka.fdp.course.utils.FinalStrings;
+
 public class NotFoundException extends RuntimeException {
 
     public NotFoundException() {
-        super();
+        this(FinalStrings.RESOURCE_NOT_FOUND);
     }
 
     public NotFoundException(String message) {

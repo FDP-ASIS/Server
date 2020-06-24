@@ -9,6 +9,7 @@ import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
+import il.ac.afeka.fdp.course.utils.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,9 @@ import java.util.stream.Stream;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseCrud courseCrud;
+
+    @Autowired
+    private UserClient userClient;
 
 //    @Autowired
 //    private DepartmentService departmentService;
@@ -94,7 +98,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
-        //TODO check if user exists in user service
+        try {
+            userClient.getUser(id);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
         switch (role) {
             case STUDENT:
                 if (entity.getStudents().stream().anyMatch((user -> user.getId().equals(id))))
