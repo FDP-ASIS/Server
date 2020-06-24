@@ -107,7 +107,7 @@ public class AdminUserController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @GetMapping(value = "/{id}", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
-    UserBoundary getAllUsers(
+    UserBoundary getUser(
             @PathVariable(value = "id") String id) {
         return new UserBoundary(this.userService.getUserById(id));
     }

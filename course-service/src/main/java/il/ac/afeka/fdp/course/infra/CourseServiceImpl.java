@@ -9,6 +9,7 @@ import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
+import il.ac.afeka.fdp.course.utils.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +27,9 @@ import java.util.stream.Stream;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseCrud courseCrud;
+
+    @Autowired
+    private UserClient userClient;
 
 //    @Autowired
 //    private DepartmentService departmentService;
@@ -94,17 +99,22 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
-        //TODO check if user exists in user service
+        User user;
+        try {
+            user = userClient.getUser(id);
+        } catch (Exception e) {
+            throw new NotFoundException();
+        }
         switch (role) {
             case STUDENT:
-                if (entity.getStudents().stream().anyMatch((user -> user.getId().equals(id))))
+                if (entity.getStudents().stream().anyMatch((u -> u.getId().equals(id))))
                     throw new ConflictException();
-                entity.getStudents().add(User.of(id));
+                entity.getStudents().add(user);
                 break;
             case LECTURER:
-                if (entity.getLecturers().stream().anyMatch((user -> user.getId().equals(id))))
+                if (entity.getLecturers().stream().anyMatch((u -> u.getId().equals(id))))
                     throw new ConflictException();
-                entity.getLecturers().add(User.of(id));
+                entity.getLecturers().add(user);
                 break;
             default:
                 throw new BadReqException("Role not found");
@@ -130,5 +140,24 @@ public class CourseServiceImpl implements CourseService {
             throw new NotFoundException("User with id: " + id + " not found in this course with role " + role.name());
         list.removeIf(user -> user.getId().equals((id)));
         this.courseCrud.save(entity);
+    }
+
+    @Override
+    public List<CourseEntity> findMyCourses(String id, UserRole role) {
+        List<CourseEntity> rv;
+        switch (role) {
+            case LECTURER:
+                rv = this.courseCrud.findAllByLecturers_Id(id);
+                break;
+            case STUDENT:
+                rv = this.courseCrud.findAllByStudents_Id(id);
+                break;
+            default:
+                throw new BadReqException();
+        }
+        return rv.stream().peek(courseEntity -> {
+            courseEntity.setLecturers(Collections.emptyList());
+            courseEntity.setStudents(Collections.emptyList());
+        }).collect(Collectors.toList());
     }
 }
