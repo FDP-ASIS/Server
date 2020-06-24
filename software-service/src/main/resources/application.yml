@@ -1,10 +1,15 @@
 # --- CONFIGURATIONS --- #
 repo: https://api.github.com/repos/FDP-ASIS/Repository
 
+
 server:
   port: 8083
 
 spring:
+  batch:
+    job:
+      enabled: false
+
   application:
     name: software-service
 
