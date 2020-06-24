@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -154,6 +155,9 @@ public class CourseServiceImpl implements CourseService {
             default:
                 throw new BadReqException();
         }
-        return rv;
+        return rv.stream().peek(courseEntity -> {
+            courseEntity.setLecturers(Collections.emptyList());
+            courseEntity.setStudents(Collections.emptyList());
+        }).collect(Collectors.toList());
     }
 }
