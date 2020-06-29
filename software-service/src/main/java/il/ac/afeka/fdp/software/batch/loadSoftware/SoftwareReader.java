@@ -37,15 +37,16 @@ public class SoftwareReader implements ItemReader<Map.Entry<String, String[]>> {
 
     @PostConstruct
     private void initialize() {
-//        allSoftwareInfo = softwareBatchService.getAllSoftware().stream().collect(Collectors.toMap(Function.identity(),
-//                s -> softwareBatchService.getSoftwareVersions(s).toArray(new String[0]))
-//        );
+        allSoftwareInfo = softwareBatchService.getAllSoftware().stream().collect(Collectors.toMap(Function.identity(),
+                s -> softwareBatchService.getSoftwareVersions(s).toArray(new String[0]))
+        );
 
-        allSoftwareInfo = new HashMap<String, String[]>() {
-            {
-                put("python", new String[]{"3.7","3.8"});
-                put("eclipse", new String[]{"3.7","2020"});
-            }
-        };
+//        //Only for development
+//        allSoftwareInfo = new HashMap<String, String[]>() {
+//            {
+//                put("python", new String[]{"3.7", "3.8"});
+//                put("eclipse", new String[]{"3.7", "2020"});
+//            }
+//        };
     }
 }
