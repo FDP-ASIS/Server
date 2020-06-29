@@ -1,8 +1,10 @@
 package il.ac.afeka.fdp.course.data.entity;
 
+import il.ac.afeka.fdp.course.data.Software;
 import il.ac.afeka.fdp.course.data.User;
-import il.ac.afeka.fdp.course.data.boundary.SoftwareBoundary;
-import lombok.*;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,13 +14,14 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 @Data
 @RequiredArgsConstructor(staticName = "of")
 @Document(collection = "COURSES")
 @Validated
+//@EntityListeners(AuditingEntityListener.class)
 public class CourseEntity {
     @Id
     @Size(min = 5, max = 5)
@@ -26,7 +29,7 @@ public class CourseEntity {
     @NonNull
     @NotBlank
     private String name;
-//    @NonNull
+    //    @NonNull
 //    @DBRef
 //    @NotBlank
 //    private DepartmentEntity department;
@@ -35,9 +38,9 @@ public class CourseEntity {
     @DBRef
     private List<User> lecturers;// = new ArrayList<>();
     @DBRef
-    private List<SoftwareBoundary> software; // = new ArrayList<>();
+    private List<Software> software; // = new ArrayList<>();
     @CreatedDate
-    private Date createdDate;
+    private Instant createdDate;
     @LastModifiedDate
-    private Date lastModifiedDate;
+    private Instant lastModifiedDate;
 }

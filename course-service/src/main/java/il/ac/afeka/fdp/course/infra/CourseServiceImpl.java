@@ -1,6 +1,7 @@
 package il.ac.afeka.fdp.course.infra;
 
 import il.ac.afeka.fdp.course.dao.CourseCrud;
+import il.ac.afeka.fdp.course.data.Software;
 import il.ac.afeka.fdp.course.data.User;
 import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
@@ -9,19 +10,17 @@ import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
+import il.ac.afeka.fdp.course.utils.SoftwareClient;
 import il.ac.afeka.fdp.course.utils.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -30,6 +29,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private UserClient userClient;
+    @Autowired
+    private SoftwareClient softwareClient;
 
 //    @Autowired
 //    private DepartmentService departmentService;
@@ -159,5 +160,27 @@ public class CourseServiceImpl implements CourseService {
             courseEntity.setLecturers(Collections.emptyList());
             courseEntity.setStudents(Collections.emptyList());
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public CourseEntity addSoftware(Long code, String softwareId) {
+        Software software = this.softwareClient.getSoftware(softwareId);
+        if (software == null)
+            throw new NotFoundException();
+        CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        if (entity.getSoftware().stream().anyMatch(software1 -> software1.getId().equals(softwareId))) {
+            throw new ConflictException();
+        }
+        entity.getSoftware().add(software);
+        return this.courseCrud.save(entity);
+    }
+
+    @Override
+    public void removeSoftware(Long code, String softwareId) {
+        if (this.softwareClient.getSoftware(softwareId) == null)
+            throw new NotFoundException();
+        CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
+        entity.getSoftware().removeIf(software -> software.getId().equals(softwareId));
+        this.courseCrud.save(entity);
     }
 }

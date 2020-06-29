@@ -1,10 +1,9 @@
 package il.ac.afeka.fdp.software.data;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,7 +18,7 @@ import java.time.Instant;
 @NoArgsConstructor
 //@RequiredArgsConstructor(staticName = "of")
 public class Software {
-    @MongoId(targetType = FieldType.STRING)
+    @MongoId(targetType = FieldType.OBJECT_ID)
     private String id;
 //    @NonNull
     @Indexed(unique=true)

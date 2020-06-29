@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.course.infra;
 
+import il.ac.afeka.fdp.course.data.Software;
 import il.ac.afeka.fdp.course.data.boundary.UserRole;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import org.springframework.data.domain.Sort;
@@ -28,4 +29,8 @@ public interface CourseService {
     void remove(long code, String id, UserRole role);
 
     List<CourseEntity> findMyCourses(String id, UserRole role);
+
+    CourseEntity addSoftware(Long code, String softwareId);
+
+    void removeSoftware(Long code, String softwareId);
 }

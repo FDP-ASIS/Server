@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.course.data.boundary;
 
+import il.ac.afeka.fdp.course.data.Software;
 import il.ac.afeka.fdp.course.data.User;
 import il.ac.afeka.fdp.course.data.entity.CourseEntity;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class CourseBoundary {
 //    private DepartmentBoundary department;
     private List<User> students;
     private List<User> lecturers;
-    private List<SoftwareBoundary> software;
+    private List<Software> software;
 
     public CourseBoundary(CourseEntity courseEntity) {
         this.code = courseEntity.getCode();
