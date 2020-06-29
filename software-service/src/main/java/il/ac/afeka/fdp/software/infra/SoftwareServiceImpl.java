@@ -8,9 +8,7 @@ import il.ac.afeka.fdp.software.data.ScriptType;
 import il.ac.afeka.fdp.software.data.Software;
 import il.ac.afeka.fdp.software.exceptions.SoftwareNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -60,5 +58,10 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Override
     public String getScriptURL(String name, String version, ScriptType scriptType) {
         return this.repoReq.getScript(name.toLowerCase(), version, scriptType);
+    }
+
+    @Override
+    public Software getSoftware(String id) {
+        return this.softwareCrud.findById(id).orElse(null);
     }
 }

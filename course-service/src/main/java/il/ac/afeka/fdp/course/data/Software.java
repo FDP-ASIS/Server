@@ -1,13 +1,16 @@
-package il.ac.afeka.fdp.course.data.boundary;
+package il.ac.afeka.fdp.course.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SoftwareBoundary {
+@Document("SOFTWARE")
+public class Software {
+    private String id;
     private String name;
     private String version;
 }

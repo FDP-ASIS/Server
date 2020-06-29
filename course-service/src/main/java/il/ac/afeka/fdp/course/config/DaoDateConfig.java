@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Configuration
 @EnableMongoAuditing
-public class DaoDate {
+public class DaoDateConfig {
 
 }
