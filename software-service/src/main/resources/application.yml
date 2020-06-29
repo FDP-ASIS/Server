@@ -1,6 +1,8 @@
 # --- CONFIGURATIONS --- #
-repo: https://api.github.com/repos/FDP-ASIS/Repository
-
+repo:
+  baseUrl: https://api.github.com/repos/FDP-ASIS/Repository/contents/scripts
+  downloadUrl: https://raw.githubusercontent.com/FDP-ASIS/Repository/master/scripts
+  scriptWithExtension: script.ps1
 
 server:
   port: 8083
@@ -39,6 +41,7 @@ logging:
   level:
     org.springframework.data.mongodb: TRACE
     org.springframework.web.servlet.mvc.method.annotation: TRACE
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 # --- Swagger --- #
 swagger:

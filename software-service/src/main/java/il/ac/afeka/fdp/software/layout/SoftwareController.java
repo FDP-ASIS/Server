@@ -33,11 +33,8 @@ public class SoftwareController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    String[] getAllSoftware(
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
-            @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction) {
-        return softwareService.getAllSoftware(page, size, direction).toArray(String[]::new);
+    String[] getAllSoftware() {
+        return softwareService.getAllSoftware().toArray(String[]::new);
     }
 
 
@@ -52,10 +49,8 @@ public class SoftwareController {
             path = "/{name}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     String[] getSoftwareVersions(
-            @PathVariable(value = "name") String name,
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
-        return softwareService.getSoftwareVersions(name, page, size).toArray(String[]::new);
+            @PathVariable(value = "name") String name) {
+        return softwareService.getSoftwareVersions(name).toArray(String[]::new);
     }
 
     @ApiOperation(value = "Get script", nickname = "getScript")

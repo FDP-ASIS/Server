@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.Instant;
@@ -18,7 +19,7 @@ import java.time.Instant;
 @NoArgsConstructor
 //@RequiredArgsConstructor(staticName = "of")
 public class Software {
-    @MongoId
+    @MongoId(targetType = FieldType.STRING)
     private String id;
 //    @NonNull
     @Indexed(unique=true)
