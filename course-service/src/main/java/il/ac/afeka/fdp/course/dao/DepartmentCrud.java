@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+@Profile("department-dev")
 public interface DepartmentCrud extends MongoRepository<DepartmentEntity, Integer> {
 
     @Query(value = "{'name': {$regex : ?0, $options: 'i'}}")

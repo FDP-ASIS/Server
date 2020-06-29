@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
                 })
                 .peek(userEntity -> userEntity.setRole(role))
                 .peek(userEntity -> userEntity.setPassword(encryptPassword(String.valueOf(userEntity.getId()))))
-                .peek(userEntity -> userEntity.setCreatedDate(new Date()))
+//                .peek(userEntity -> userEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
     }
 

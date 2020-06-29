@@ -6,9 +6,10 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface SoftwareService {
-    List<String> getAllSoftware(int page, int size, Sort.Direction direction);
 
-    List<String> getSoftwareVersions(String name, int page, int size);
+    List<String> getAllSoftware();
+
+    List<String> getSoftwareVersions(String name);
 
     String getScriptURL(String name, String version, ScriptType type);
 }
