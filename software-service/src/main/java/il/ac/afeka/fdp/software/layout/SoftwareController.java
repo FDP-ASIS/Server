@@ -47,9 +47,9 @@ public class SoftwareController {
     @GetMapping(
             path = "{name}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    String[] getSoftwareVersions(
+    Software[] getSoftwareVersions(
             @PathVariable(value = "name") String name) {
-        return softwareService.getSoftwareVersions(name).toArray(String[]::new);
+        return softwareService.getSoftwareVersions(name).toArray(Software[]::new);
     }
 
     @ApiOperation(value = "Get script", nickname = "getScript")
