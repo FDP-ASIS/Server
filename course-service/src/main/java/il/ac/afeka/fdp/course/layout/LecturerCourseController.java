@@ -49,7 +49,7 @@ public class LecturerCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
-    @PatchMapping(value = "/{code}",
+    @PatchMapping(value = "/{code}/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public CourseBoundary addSoftware(
@@ -68,9 +68,9 @@ public class LecturerCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
-    @DeleteMapping(value = "/{code}")
+    @DeleteMapping(value = "/{code}/{id}")
     public void removeSoftware(@PathVariable("code") Long code,
-                               @RequestBody IdBoundary idBoundary) {
-        this.courseService.removeSoftware(code, idBoundary.getId());
+                               @PathVariable("id") String id) {
+        this.courseService.removeSoftware(code, id);
     }
 }

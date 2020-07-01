@@ -44,11 +44,12 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
-    public List<String> getSoftwareVersions(String name) {
+    public List<Software> getSoftwareVersions(String name) {
         try {
             return this.softwareCrud.findByNameIgnoreCase(name).stream()
-                    .map(Software::getVersion)
-                    .sorted(Comparator.reverseOrder())
+//                    .map(Software::getVersion)
+//                    .sorted(Comparator.reverseOrder())
+                    .sorted((software1, software2) -> software2.getVersion().compareTo(software1.getVersion()))
                     .collect(Collectors.toList());
         } catch (HttpClientErrorException e) {
             throw new SoftwareNotFoundException();
