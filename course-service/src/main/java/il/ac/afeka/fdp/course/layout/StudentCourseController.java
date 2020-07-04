@@ -66,9 +66,29 @@ public class StudentCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @PatchMapping(path = "/{code}")
-    public void addLecturerToCourse(@PathVariable(name = "code") long code,
+    public void addStudentToCourse(@PathVariable(name = "code") long code,
                                     @RequestParam(name = "id") String id) {
         this.courseService.assign(code,id, UserRole.STUDENT);
+    }
+
+    /**
+     *
+     * @param code course code
+     * @param id lecturer id
+     */
+    @ApiOperation(
+            value = "Remove STUDENT from course")
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
+
+    @DeleteMapping(path = "/{code}")
+    public void removeStudentFromCourse(@PathVariable(name = "code") long code,
+                                    @RequestParam(name = "id") String id) {
+        this.courseService.remove(code,id, UserRole.STUDENT);
     }
 
     @ApiOperation(

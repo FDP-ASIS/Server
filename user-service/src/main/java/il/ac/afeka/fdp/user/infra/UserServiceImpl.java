@@ -9,10 +9,9 @@ import il.ac.afeka.fdp.user.exception.user.UserNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,7 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String encryptPassword(String password) {
-        //TODO add password encryption
-        return password;
+        // TODO change password encryption
+        return Base64.getEncoder().encodeToString(password.getBytes());
     }
 }
