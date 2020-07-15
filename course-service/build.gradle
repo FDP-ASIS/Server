@@ -6,3 +6,10 @@ dependencies {
 
 //	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}

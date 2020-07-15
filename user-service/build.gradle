@@ -5,3 +5,10 @@ dependencies {
 	compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.1.5.Final'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}

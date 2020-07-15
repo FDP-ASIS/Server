@@ -5,3 +5,10 @@ dependencies {
 	implementation 'org.springframework.batch:spring-batch-test'
 	runtimeOnly 'com.h2database:h2'
 }
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
