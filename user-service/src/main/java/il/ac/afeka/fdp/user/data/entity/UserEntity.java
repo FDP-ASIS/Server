@@ -36,6 +36,7 @@ public class UserEntity {
     @NonNull
     @Email
     private String email;
+    @Size(min = 5, max = 15)
     private String password;
     private UserRoleEnum role;
     @CreatedDate
