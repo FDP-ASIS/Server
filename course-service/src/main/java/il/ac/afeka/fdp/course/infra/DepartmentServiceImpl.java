@@ -6,6 +6,8 @@ import il.ac.afeka.fdp.course.data.entity.DepartmentEntity;
 import il.ac.afeka.fdp.course.exceptions.department.DepartmentAlreadyExistsException;
 import il.ac.afeka.fdp.course.exceptions.department.DepartmentNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
+import il.ac.afeka.fdp.course.logger.CoursePerformance;
+import il.ac.afeka.fdp.course.logger.Logger;
 import il.ac.afeka.fdp.course.utils.FinalStrings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentCrud departmentCrud;
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<DepartmentEntity> create(List<DepartmentEntity> departments) {
         if (departments.stream().anyMatch(entity -> entity.getName() == null || entity.getName().isEmpty()))
             throw new BadReqException(FinalStrings.EMPTY_FIELD);
@@ -34,16 +38,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public DepartmentEntity getDepartmentByCode(int code) {
         return this.departmentCrud.findById(code).orElseThrow(() -> new DepartmentNotFoundException(code));
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<DepartmentEntity> getAllDepartments(int page, int size, Sort.Direction direction, String sort) {
         return this.departmentCrud.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void editDepartment(int code, DepartmentEntity department) {
         DepartmentEntity departmentEntity = this.departmentCrud.findById(code).orElseThrow(() -> new DepartmentNotFoundException(code));
         if (departmentEntity.getCode() == null)
@@ -57,6 +67,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void deleteDepartmentByCode(int code) {
         if (!this.departmentCrud.existsById(code)) {
             throw new DepartmentNotFoundException(code);
@@ -65,11 +77,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void deleteAll() {
         this.departmentCrud.deleteAll();
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<DepartmentEntity> getDepartmentsByName(String name, int page, int size, Sort.Direction direction, String sort) {
         return this.departmentCrud.findByNameRegex(".*"+name+".*", PageRequest.of(page, size, direction, sort));
     }

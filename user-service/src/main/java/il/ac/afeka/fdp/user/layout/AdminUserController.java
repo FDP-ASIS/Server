@@ -33,7 +33,7 @@ public class AdminUserController {
      * @param boundaries users
      * @return saved users
      */
-    @ApiOperation(value = "register users", notes = "Be careful with the query param", nickname = "register")
+    @ApiOperation(value = "Register users", notes = "Be careful with the query param", nickname = "register")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -62,6 +62,7 @@ public class AdminUserController {
     @ApiOperation(value = "Get all users", notes = "default sort is id", nickname = "getAll")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
@@ -104,9 +105,10 @@ public class AdminUserController {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
-    @GetMapping(value = "/{id}", name = "Get all the users in the system using pagination", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", name = "Get specific user", produces = MediaType.APPLICATION_JSON_VALUE)
     UserBoundary getUser(
             @PathVariable(value = "id") String id) {
         return new UserBoundary(this.userService.getUserById(id));
@@ -133,12 +135,14 @@ public class AdminUserController {
      */
     @ApiOperation(value = "Delete a user", nickname = "deleteUser")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.ALL_RESOURCES_DELETED),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @DeleteMapping(value = "/{id}", name = "Delete user by id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteUserById(
             @PathVariable(value = "id") String id) {
         this.userService.deleteUserById(id);
