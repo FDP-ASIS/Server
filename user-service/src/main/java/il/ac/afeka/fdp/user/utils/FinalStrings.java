@@ -10,6 +10,7 @@ public interface FinalStrings {
         200-299
      **************/
     String OK = "OK";                                               // code 200 - Ok
+    String LOGIN= "Successfully login with jwt";                    // code 200 - Ok
     String RESOURCE_DELETED = "Resource has deleted";               // code 200 - Ok
     String RESOURCE_EDITED = "Resource has edited";                 // code 200 - Ok
     String RESOURCE_CREATED = "Resource has created successfully";  // code 201 - Created
@@ -27,7 +28,7 @@ public interface FinalStrings {
     String RESOURCE_EXISTS = "Failed to create the new resource because it's already exists: "; // code 409 - Conflict
 
     /**************
-        500-599
+         500-599
      **************/
     String SERVER_ERROR = "Internal server error"; // code 500 - Internal Server Error
 
@@ -44,4 +45,5 @@ public interface FinalStrings {
             "have supplied";
     String USER_NOT_EXISTS = "User does not exists with id: ";
     String USER_ALREADY_EXISTS = "User already exists with id: ";
+    String PASSWORD_NOT_EQUAL = "password not equal to the user password in database";
 }

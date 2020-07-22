@@ -5,6 +5,7 @@ import il.ac.afeka.fdp.auth.data.Token;
 import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.data.boundary.UsernamePasswordBoundary;
 import il.ac.afeka.fdp.auth.infra.AuthService;
+import il.ac.afeka.fdp.auth.utils.FinalStrings;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.HttpURLConnection;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,14 +26,16 @@ public class AuthController {
     private AuthService authService;
 
     /**
+     * Login user to the system and create a new session token
      * @param UsernamePasswordBoundary credentials
      * @return UserWithToken
      */
-    @ApiOperation(value = "login user", nickname = "login")
+    @ApiOperation(value = "Log the user into the system with username and password and create a new session token", nickname = "login")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully login user"),
-            @ApiResponse(code = 401, message = "Invalid credentials"),
-            @ApiResponse(code = 500, message = "Other internal errors")
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.LOGIN),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.INVALID_CREDENTIALS),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @PostMapping(
             value = "/login",
@@ -44,14 +49,17 @@ public class AuthController {
 
     /**
      *
+     * Authenticate user with token
      * @param token string
      * @return user
      */
-    @ApiOperation(value = "auth user", nickname = "tokenAuth")
+    @ApiOperation(value = "Request only the token to check if it is correct and exists.\n" +
+            "It is checking for access, and preventing outside hacking and unauthorized persons from using the system\n", nickname = "tokenAuth")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully login with jwt"),
-            @ApiResponse(code = 401, message = "Invalid credentials"),
-            @ApiResponse(code = 500, message = "Other internal errors")
+            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.LOGIN_JWT),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.INVALID_CREDENTIALS),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @PostMapping(
             name = "Authenticate user with token",
@@ -63,13 +71,14 @@ public class AuthController {
     }
 
     /**
-     *
+     * Logout user from the system and delete his token
      */
-    @ApiOperation(value = "logout user", nickname = "logout")
+    @ApiOperation(value = "Logout the user from the system and delete the token", nickname = "logout")
     @ApiResponses(value = {
-            @ApiResponse(code = 205, message = "Successfully logout user"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Other internal errors")
+            @ApiResponse(code = HttpURLConnection.HTTP_RESET, message = FinalStrings.RESET_CONTENT),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR),
     })
     @DeleteMapping(value = "/logout", name = "logout user")
     @ResponseStatus(HttpStatus.RESET_CONTENT)

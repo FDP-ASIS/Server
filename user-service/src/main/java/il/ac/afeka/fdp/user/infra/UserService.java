@@ -21,5 +21,5 @@ public interface UserService {
 
     void updateUserById(String id, UserEntity user);
 
-    UserEntity updateUserPasswordById(String id, String password);
+    UserEntity updateUserPasswordById(String id, String oldPassword, String newPassword);
 }

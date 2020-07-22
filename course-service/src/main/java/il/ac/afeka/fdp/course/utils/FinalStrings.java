@@ -10,9 +10,9 @@ public interface FinalStrings {
         200-299
      **************/
     String OK = "OK";                                               // code 200 - Ok
-    String RESOURCE_DELETED = "Resource has deleted";               // code 200 - Ok
     String RESOURCE_EDITED = "Resource has edited";                 // code 200 - Ok
     String RESOURCE_CREATED = "Resource has created successfully";  // code 201 - Created
+    String RESOURCE_DELETED = "Resource has deleted";               // code 204 - No Content
     String ALL_RESOURCES_DELETED = "All resources has deleted";     // code 204 - No Content
     String RESET_CONTENT = "Reset content";                         // code 205 - Reset Content
 

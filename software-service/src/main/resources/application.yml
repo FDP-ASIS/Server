@@ -43,6 +43,18 @@ logging:
     org.springframework.web.servlet.mvc.method.annotation: TRACE
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
+    il:
+      ac:
+        afeka:
+          fdp:
+            software:
+              logger:
+                LoggerAspect: INFO
+                PerformanceAspect: TRACE
+              infra:
+                SoftwareBatchServiceImpl: TRACE
+                SoftwareServiceImpl: TRACE
+
 # --- Swagger --- #
 swagger:
   meta:

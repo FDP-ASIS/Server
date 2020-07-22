@@ -5,6 +5,8 @@ import il.ac.afeka.fdp.auth.data.Token;
 import il.ac.afeka.fdp.auth.data.UserWithToken;
 import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.exceptions.InvalidCredentials;
+import il.ac.afeka.fdp.auth.logger.AuthPerformance;
+import il.ac.afeka.fdp.auth.logger.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,22 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository repository;
 
     @Override
+    @Logger
+    @AuthPerformance
     public UserWithToken login(String username, String password) {
         return new UserWithToken(repository.findByUsernameAndPassword(username, encryptPassword(password)).orElseThrow(InvalidCredentials::new), "");
     }
 
     @Override
+    @Logger
+    @AuthPerformance
     public void logout() {
 
     }
 
     @Override
+    @Logger
+    @AuthPerformance
     public UserBoundary auth(Token token) {
         // TODO implement the function
         return null;

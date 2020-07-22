@@ -22,22 +22,22 @@ public class UserController {
     /**
      *
      * @param id user's id need to change password
-     * @param password need password to change
+     * @param passwordBoundary old password and new password
      * @return user
      */
     @ApiOperation(value = "Update user password by id", nickname = "updateUserPassword")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
-            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = "Bad request"),
-            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = "User not found"),
-            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = "Other internal server errors")
+            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
+            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
+            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
+            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
+            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
     @PatchMapping(value = "/{id}", name = "Update user password by id")
     UserBoundary updateUserPasswordById(
             @PathVariable(value = "id") String id,
-            @RequestBody PasswordBoundary password) {
-        return new UserBoundary(this.userService.updateUserPasswordById(id, password.getPassword()));
+            @RequestBody PasswordBoundary passwordBoundary) {
+        return new UserBoundary(this.userService.updateUserPasswordById(id, passwordBoundary.getOldPassword(), passwordBoundary.getNewPassword()));
     }
 }

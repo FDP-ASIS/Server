@@ -10,6 +10,8 @@ import il.ac.afeka.fdp.course.exceptions.course.CourseNotFoundException;
 import il.ac.afeka.fdp.course.exceptions.root.BadReqException;
 import il.ac.afeka.fdp.course.exceptions.root.ConflictException;
 import il.ac.afeka.fdp.course.exceptions.root.NotFoundException;
+import il.ac.afeka.fdp.course.logger.CoursePerformance;
+import il.ac.afeka.fdp.course.logger.Logger;
 import il.ac.afeka.fdp.course.utils.SoftwareClient;
 import il.ac.afeka.fdp.course.utils.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class CourseServiceImpl implements CourseService {
 //    private DepartmentService departmentService;
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<CourseEntity> create(List<CourseEntity> courses) {
         if (courses.stream().anyMatch(entity -> this.courseCrud.existsById(entity.getCode()))) {
             throw new CourseAlreadyExistsException();
@@ -50,26 +54,36 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<CourseEntity> getAllCourses(int page, int size, Sort.Direction direction, String sort) {
         return this.courseCrud.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<CourseEntity> getCoursesByName(String name, int page, int size, Sort.Direction direction, String sort) {
         return this.courseCrud.findByNameStartingWith(name, PageRequest.of(page, size, direction, sort));
     }
 
 //    @Override
+//    @Logger
+//    @CoursePerformance
 //    public List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort) {
 //        return this.courseCrud.findAllByDepartmentCode(departmentCode, PageRequest.of(page, size, direction, sort));
 //    }
 
     @Override
+    @Logger
+    @CoursePerformance
     public CourseEntity getCourseByCode(long code) {
         return this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void editCourse(long code, CourseEntity course) {
         CourseEntity courseToEdit = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         course.setStudents(courseToEdit.getStudents());
@@ -85,6 +99,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void deleteCourseByCode(long courseCode) {
         if (!this.courseCrud.existsById(courseCode)) {
             throw new CourseNotFoundException(courseCode);
@@ -93,11 +109,15 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void deleteAll() {
         this.courseCrud.deleteAll();
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public CourseEntity assign(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         User user;
@@ -124,6 +144,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void remove(long code, String id, UserRole role) {
         CourseEntity entity = this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
         List<User> list;
@@ -144,6 +166,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public List<CourseEntity> findMyCourses(String id, UserRole role) {
         List<CourseEntity> rv;
         switch (role) {
@@ -163,6 +187,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public CourseEntity addSoftware(Long code, String softwareId) {
         Software software = this.softwareClient.getSoftware(softwareId);
         if (software == null)
@@ -176,6 +202,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Logger
+    @CoursePerformance
     public void removeSoftware(Long code, String softwareId) {
         if (this.softwareClient.getSoftware(softwareId) == null)
             throw new NotFoundException();

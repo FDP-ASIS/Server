@@ -35,7 +35,7 @@ public class AdminCourseController {
      */
     @ApiOperation(
             value = "Create new courses",
-            notes = "Adds courses to the system",
+            notes = "Add courses to the system",
             nickname = "createCourse")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
@@ -136,8 +136,7 @@ public class AdminCourseController {
      */
     @ApiOperation(
             value = "Edit course details by course code",
-            notes = "Edit this course in database.\n" +
-                    "Can be called only by Admin/Lecturer after authentication")
+            notes = "Edit this course in database")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.RESOURCE_EDITED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -162,8 +161,7 @@ public class AdminCourseController {
      */
     @ApiOperation(
             value = "Delete specific course by course code",
-            notes = "Remove this course from the database.\n" +
-                    "Can be called only by Admin/Lecturer after authentication")
+            notes = "Remove this course from the database")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -172,6 +170,7 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
     @DeleteMapping(path = "/{code}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteCourseByCode(@PathVariable("code") long code) {
         this.courseService.deleteCourseByCode(code);
     }
@@ -181,8 +180,7 @@ public class AdminCourseController {
      */
     @ApiOperation(
             value = "Delete all courses",
-            notes = "Delete courses from the database.\n" +
-                    "Can be called only by Admin/Lecturer after authentication")
+            notes = "Delete courses from the database")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
@@ -224,7 +222,7 @@ public class AdminCourseController {
     @ApiOperation(
             value = "Remove lecturer from course")
     @ApiResponses(value = {
-            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
+            @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
             @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
@@ -232,8 +230,9 @@ public class AdminCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
 
     @DeleteMapping(path = "/{code}/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void removeLecturerFromCourse(@PathVariable(name = "code") long code,
-                                              @PathVariable(name = "id") String id) {
+                                         @PathVariable(name = "id") String id) {
         this.courseService.remove(code,id, UserRole.LECTURER);
     }
 }

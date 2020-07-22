@@ -7,6 +7,8 @@ import il.ac.afeka.fdp.software.dao.SoftwareCrud;
 import il.ac.afeka.fdp.software.data.ScriptType;
 import il.ac.afeka.fdp.software.data.Software;
 import il.ac.afeka.fdp.software.exceptions.SoftwareNotFoundException;
+import il.ac.afeka.fdp.software.logger.Logger;
+import il.ac.afeka.fdp.software.logger.SoftwarePerformance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class SoftwareServiceImpl implements SoftwareService {
     private MongoTemplate mongoTemplate;
 
     @Override
+    @Logger
+    @SoftwarePerformance
     public List<String> getAllSoftware() {
         DistinctIterable<String> iterable = mongoTemplate
                 .getCollection("SOFTWARE")
@@ -44,6 +48,8 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
+    @Logger
+    @SoftwarePerformance
     public List<Software> getSoftwareVersions(String name) {
         try {
             return this.softwareCrud.findByNameIgnoreCase(name).stream()
@@ -57,11 +63,15 @@ public class SoftwareServiceImpl implements SoftwareService {
     }
 
     @Override
+    @Logger
+    @SoftwarePerformance
     public String getScriptURL(String name, String version, ScriptType scriptType) {
         return this.repoReq.getScript(name.toLowerCase(), version, scriptType);
     }
 
     @Override
+    @Logger
+    @SoftwarePerformance
     public Software getSoftware(String id) {
         return this.softwareCrud.findById(id).orElse(null);
     }
