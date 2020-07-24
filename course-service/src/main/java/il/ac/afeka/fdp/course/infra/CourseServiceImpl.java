@@ -24,6 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Course Service
+ */
 @Service
 public class CourseServiceImpl implements CourseService {
     @Autowired
@@ -34,9 +37,10 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private SoftwareClient softwareClient;
 
-//    @Autowired
-//    private DepartmentService departmentService;
-
+    /**
+     * @param courses course details
+     * @return courses details after creation
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -45,14 +49,19 @@ public class CourseServiceImpl implements CourseService {
             throw new CourseAlreadyExistsException();
         }
         return this.courseCrud.saveAll(courses.stream()
-//                .peek(courseEntity -> courseEntity.setDepartment(departmentService.getDepartmentByCode(courseEntity.getDepartment().getCode())))
                 .peek(courseEntity -> courseEntity.setStudents(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setLecturers(new ArrayList<>()))
                 .peek(courseEntity -> courseEntity.setSoftware(new ArrayList<>()))
-//                .peek(courseEntity -> courseEntity.setCreatedDate(new Date()))
                 .collect(Collectors.toList()));
     }
 
+    /**
+     * @param page page
+     * @param size size
+     * @param direction ASC/DESC
+     * @param sort sort type
+     * @return All courses details in the system
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -60,6 +69,14 @@ public class CourseServiceImpl implements CourseService {
         return this.courseCrud.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
+    /**
+     * @param name course name
+     * @param page page
+     * @param size size
+     * @param direction ASC/DESC
+     * @param sort sort type
+     * @return get courses details by name
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -67,13 +84,10 @@ public class CourseServiceImpl implements CourseService {
         return this.courseCrud.findByNameStartingWith(name, PageRequest.of(page, size, direction, sort));
     }
 
-//    @Override
-//    @Logger
-//    @CoursePerformance
-//    public List<CourseEntity> getCoursesByDepartmentCode(int departmentCode, int page, int size, Sort.Direction direction, String sort) {
-//        return this.courseCrud.findAllByDepartmentCode(departmentCode, PageRequest.of(page, size, direction, sort));
-//    }
-
+    /**
+     * @param code course code
+     * @return get course details by code
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -81,6 +95,11 @@ public class CourseServiceImpl implements CourseService {
         return this.courseCrud.findById(code).orElseThrow(() -> new CourseNotFoundException(code));
     }
 
+    /**
+     * Edit course details by code
+     * @param code course code
+     * @param course course details
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -91,13 +110,15 @@ public class CourseServiceImpl implements CourseService {
         course.setSoftware(courseToEdit.getSoftware());
         if (course.getName().isEmpty())
             course.setName(courseToEdit.getName());
-//        if (course.getDepartment() == null)
-//            course.setDepartment(courseToEdit.getDepartment());
         this.courseCrud.save(course);
         if (code != course.getCode())
             this.courseCrud.deleteById(code);
     }
 
+    /**
+     * Delete specific course by code
+     * @param courseCode course code
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -108,6 +129,9 @@ public class CourseServiceImpl implements CourseService {
         this.courseCrud.deleteById(courseCode);
     }
 
+    /**
+     * Delete all courses from the system
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -115,6 +139,12 @@ public class CourseServiceImpl implements CourseService {
         this.courseCrud.deleteAll();
     }
 
+    /**
+     * @param code course code
+     * @param id user id
+     * @param role user role
+     * @return course details after assign user
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -143,6 +173,12 @@ public class CourseServiceImpl implements CourseService {
         return this.courseCrud.save(entity);
     }
 
+    /**
+     * Remove user from course
+     * @param code course code
+     * @param id user id
+     * @param role user role
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -165,6 +201,11 @@ public class CourseServiceImpl implements CourseService {
         this.courseCrud.save(entity);
     }
 
+    /**
+     * @param id user id
+     * @param role user role
+     * @return courses details by user id
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -186,6 +227,11 @@ public class CourseServiceImpl implements CourseService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * @param code course code
+     * @param softwareId softwareId
+     * @return course details after adding a software to it
+     */
     @Override
     @Logger
     @CoursePerformance
@@ -201,6 +247,11 @@ public class CourseServiceImpl implements CourseService {
         return this.courseCrud.save(entity);
     }
 
+    /**
+     * Remove software from a course
+     * @param code code course
+     * @param softwareId softwareId
+     */
     @Override
     @Logger
     @CoursePerformance

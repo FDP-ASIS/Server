@@ -17,12 +17,20 @@ import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Lecturer Course Controller methods
+ */
 @RestController
 @RequestMapping("/course/lecturer")
 public class LecturerCourseController {
     @Autowired
     private CourseService courseService;
 
+    /**
+     * Find lecturer courses -- GET
+     * @param id id of the lecturer
+     * @return List of lecturer courses
+     */
     @ApiOperation(
             value = "Find lecturer courses")
     @ApiResponses(value = {
@@ -41,6 +49,12 @@ public class LecturerCourseController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Add software to course -- PATCH
+     * @param code course code
+     * @param idBoundary id of software
+     * @return details of the specific course
+     */
     @ApiOperation(
             value = "Add software to course")
     @ApiResponses(value = {
@@ -61,6 +75,11 @@ public class LecturerCourseController {
         return new CourseBoundary(this.courseService.addSoftware(code, idBoundary.getId()));
     }
 
+    /**
+     * Remove software to course -- DELETE
+     * @param code course code
+     * @param id id of the software
+     */
     @ApiOperation(
             value = "Remove software to course")
     @ApiResponses(value = {

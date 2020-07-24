@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Software Service
+ */
 @Service
 public class SoftwareServiceImpl implements SoftwareService {
 
@@ -31,6 +33,9 @@ public class SoftwareServiceImpl implements SoftwareService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    /**
+     * @return all software in the system
+     */
     @Override
     @Logger
     @SoftwarePerformance
@@ -47,14 +52,16 @@ public class SoftwareServiceImpl implements SoftwareService {
         return list;
     }
 
+    /**
+     * @param name software name
+     * @return all versions of the software
+     */
     @Override
     @Logger
     @SoftwarePerformance
     public List<Software> getSoftwareVersions(String name) {
         try {
             return this.softwareCrud.findByNameIgnoreCase(name).stream()
-//                    .map(Software::getVersion)
-//                    .sorted(Comparator.reverseOrder())
                     .sorted((software1, software2) -> software2.getVersion().compareTo(software1.getVersion()))
                     .collect(Collectors.toList());
         } catch (HttpClientErrorException e) {
@@ -62,6 +69,12 @@ public class SoftwareServiceImpl implements SoftwareService {
         }
     }
 
+    /**
+     * @param name software name
+     * @param version software version
+     * @param scriptType Installation/Deletion
+     * @return download link of the script
+     */
     @Override
     @Logger
     @SoftwarePerformance
@@ -69,6 +82,10 @@ public class SoftwareServiceImpl implements SoftwareService {
         return this.repoReq.getScript(name.toLowerCase(), version, scriptType);
     }
 
+    /**
+     * @param id software id
+     * @return the software details by id
+     */
     @Override
     @Logger
     @SoftwarePerformance

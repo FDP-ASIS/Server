@@ -12,5 +12,4 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
             System.out.println("BATCH JOB COMPLETED SUCCESSFULLY");
         }
     }
-
 }

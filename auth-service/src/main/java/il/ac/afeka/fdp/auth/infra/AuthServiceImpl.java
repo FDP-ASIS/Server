@@ -12,12 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 
+/**
+ * Authentication Service
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private UserRepository repository;
 
+    /**
+     * @param username username
+     * @param password password
+     * @return User with token details
+     */
     @Override
     @Logger
     @AuthPerformance
@@ -25,6 +33,9 @@ public class AuthServiceImpl implements AuthService {
         return new UserWithToken(repository.findByUsernameAndPassword(username, encryptPassword(password)).orElseThrow(InvalidCredentials::new), "");
     }
 
+    /**
+     * Logout from the system
+     */
     @Override
     @Logger
     @AuthPerformance
@@ -32,6 +43,10 @@ public class AuthServiceImpl implements AuthService {
 
     }
 
+    /**
+     * @param token token authorization
+     * @return User details
+     */
     @Override
     @Logger
     @AuthPerformance
@@ -40,8 +55,11 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
+    /**
+     * @param password password
+     * @return encrypted password
+     */
     private String encryptPassword(String password) {
-        // TODO change password encryption
         return Base64.getEncoder().encodeToString(password.getBytes());
     }
 }

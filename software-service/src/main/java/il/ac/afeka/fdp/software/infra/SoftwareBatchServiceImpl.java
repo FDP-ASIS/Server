@@ -11,12 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Software Batch Service
+ */
 @Service
 public class SoftwareBatchServiceImpl implements SoftwareBatchService {
 
     @Autowired
     private RepoReq repoReq;
 
+    /**
+     * @param url url
+     * @return repository data
+     */
     @Logger
     @SoftwarePerformance
     public RepoData[] getData(String url) {
@@ -24,6 +31,9 @@ public class SoftwareBatchServiceImpl implements SoftwareBatchService {
         return this.repoReq.getData(this.repoReq.getBaseUrl() + "/" + url);
     }
 
+    /**
+     * @return Software data
+     */
     @Override
     @Logger
     @SoftwarePerformance
@@ -31,6 +41,10 @@ public class SoftwareBatchServiceImpl implements SoftwareBatchService {
         return Arrays.stream(getData(null)).map(RepoData::getName).collect(Collectors.toList());
     }
 
+    /**
+     * @param name software name
+     * @return Software versions
+     */
     @Override
     @Logger
     @SoftwarePerformance

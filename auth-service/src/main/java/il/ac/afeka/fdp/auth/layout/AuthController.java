@@ -6,10 +6,12 @@ import il.ac.afeka.fdp.auth.data.boundary.UserBoundary;
 import il.ac.afeka.fdp.auth.data.boundary.UsernamePasswordBoundary;
 import il.ac.afeka.fdp.auth.infra.AuthService;
 import il.ac.afeka.fdp.auth.utils.FinalStrings;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
 
+/**
+ * Auth Controller methods
+ */
 @RestController
 @RequestMapping("/auth")
 @Api(value = "Auth controller")
@@ -26,11 +31,11 @@ public class AuthController {
     private AuthService authService;
 
     /**
-     * Login user to the system and create a new session token
+     * Log the user in with username and password -- POST
      * @param UsernamePasswordBoundary credentials
      * @return UserWithToken
      */
-    @ApiOperation(value = "Log the user into the system with username and password and create a new session token", nickname = "login")
+    @ApiOperation(value = "Log the user in with username and password", nickname = "login")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.LOGIN),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.INVALID_CREDENTIALS),
@@ -48,13 +53,12 @@ public class AuthController {
     }
 
     /**
-     *
-     * Authenticate user with token
+     * Request the token to check (Authenticate user with token) -- POST
      * @param token string
-     * @return user
+     * @return userBoundary
      */
-    @ApiOperation(value = "Request only the token to check if it is correct and exists.\n" +
-            "It is checking for access, and preventing outside hacking and unauthorized persons from using the system\n", nickname = "tokenAuth")
+    @ApiOperation(value = "Authenticate user with token",
+                  nickname = "tokenAuth")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.LOGIN_JWT),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.INVALID_CREDENTIALS),
@@ -71,9 +75,10 @@ public class AuthController {
     }
 
     /**
-     * Logout user from the system and delete his token
+     * Logout the user from the system and delete his token -- DELETE
      */
-    @ApiOperation(value = "Logout the user from the system and delete the token", nickname = "logout")
+    @ApiOperation(value = "Logout the user from the system and delete his token",
+                  nickname = "logout")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_RESET, message = FinalStrings.RESET_CONTENT),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),

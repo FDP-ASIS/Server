@@ -1,7 +1,5 @@
 package il.ac.afeka.fdp.software.data;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,14 +14,11 @@ import java.time.Instant;
 @Data
 @Document(collection = "SOFTWARE")
 @NoArgsConstructor
-//@RequiredArgsConstructor(staticName = "of")
 public class Software {
     @MongoId(targetType = FieldType.OBJECT_ID)
     private String id;
-//    @NonNull
     @Indexed(unique=true)
     private String name;
-//    @NonNull
     @Indexed(unique=true)
     private String version;
     @CreatedDate

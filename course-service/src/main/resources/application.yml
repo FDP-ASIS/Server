@@ -45,7 +45,6 @@ logging:
                 PerformanceAspect: TRACE
               infra:
                 CourseServiceImpl: TRACE
-                DepartmentServiceImpl: TRACE
 
 # --- Swagger --- #
 swagger:

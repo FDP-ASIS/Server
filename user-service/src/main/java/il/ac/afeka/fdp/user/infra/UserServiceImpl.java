@@ -18,12 +18,20 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * User Service
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
 
+    /**
+     * @param entities user details
+     * @param role user role
+     * @return Registered Users details
+     */
     @Override
     @Logger
     @UserPerformance
@@ -41,10 +49,16 @@ public class UserServiceImpl implements UserService {
                 })
                 .peek(userEntity -> userEntity.setRole(role))
                 .peek(userEntity -> userEntity.setPassword(encryptPassword(String.valueOf(userEntity.getId()))))
-              //  .peek(userEntity -> userEntity.setCreatedDate(new InstantDate()))
                 .collect(Collectors.toList()));
     }
 
+    /**
+     * @param page page
+     * @param size size
+     * @param direction ASC/DESC
+     * @param sort sort type
+     * @return All users in the system
+     */
     @Override
     @Logger
     @UserPerformance
@@ -52,6 +66,10 @@ public class UserServiceImpl implements UserService {
         return this.userDao.findAll(PageRequest.of(page, size, direction, sort)).getContent();
     }
 
+    /**
+     * @param id user id
+     * @return specific user by id
+     */
     @Override
     @Logger
     @UserPerformance
@@ -59,6 +77,9 @@ public class UserServiceImpl implements UserService {
         return this.userDao.findById(id).orElseThrow(() -> new UserNotFound(id));
     }
 
+    /**
+     * Delete all users from the system
+     */
     @Override
     @Logger
     @UserPerformance
@@ -66,6 +87,10 @@ public class UserServiceImpl implements UserService {
         this.userDao.deleteAll();
     }
 
+    /**
+     * Delete specific user by id from the system
+     * @param id user id
+     */
     @Override
     @Logger
     @UserPerformance
@@ -76,14 +101,15 @@ public class UserServiceImpl implements UserService {
         this.userDao.deleteById(id);
     }
 
+    /**
+     * Update user details by id
+     * @param id user id
+     * @param user user details
+     */
     @Override
     @Logger
     @UserPerformance
     public void updateUserById(String id, UserEntity user) {
-        /*if (!this.userDao.existsById(user.getId()))
-            throw new UserNotFound(user.getId());
-        this.userDao.save(user); */
-
         UserEntity userToEdit = this.userDao.findById(id).orElseThrow(() -> new UserNotFound(id));
         userToEdit.setUsername(user.getUsername());
         userToEdit.setEmail(user.getEmail());
@@ -91,6 +117,12 @@ public class UserServiceImpl implements UserService {
         this.userDao.save(userToEdit);
     }
 
+    /**
+     * @param id user id
+     * @param oldPassword user old password
+     * @param newPassword user new password
+     * @return user details after changing password
+     */
     @Override
     @Logger
     @UserPerformance
@@ -102,8 +134,11 @@ public class UserServiceImpl implements UserService {
         return this.userDao.save(userEntity);
     }
 
+    /**
+     * @param password password
+     * @return encrypted password
+     */
     private String encryptPassword(String password) {
-        // TODO change password encryption
         return Base64.getEncoder().encodeToString(password.getBytes());
     }
 }
