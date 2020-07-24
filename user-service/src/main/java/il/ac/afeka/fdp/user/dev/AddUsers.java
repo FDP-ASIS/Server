@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Component
 @Profile("dev")
@@ -21,10 +21,26 @@ public class AddUsers implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
-            service.signUp(Arrays.asList(
-                    UserEntity.of("123456789", "username1", new Name("first1", "last2"), "user1@mail.com"),
-                    UserEntity.of("123456788", "username2", new Name("first1", "last2"), "user2@mail.com")
-                    ), UserRoleEnum.STUDENT);
+            service.signUp(Collections.singletonList(
+                    UserEntity.of("123456789",
+                            "Student",
+                            new Name("Israel", "Israeli"),
+                            "student@gmail.com")
+            ), UserRoleEnum.STUDENT);
+
+            service.signUp(Collections.singletonList(
+                    UserEntity.of("111111111",
+                            "Lecturer",
+                            new Name("LecturerF", "LecturerL"),
+                            "lecturer@gmail.com")
+            ), UserRoleEnum.LECTURER);
+
+            service.signUp(Collections.singletonList(
+                    UserEntity.of("222222222",
+                            "Admin",
+                            new Name("AdminF", "AdminL"),
+                            "admin@gmail.com")
+            ), UserRoleEnum.ADMIN);
         } catch (Exception e) {
             e.printStackTrace();
         }

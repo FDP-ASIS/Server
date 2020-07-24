@@ -15,12 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Admin Course Controller methods
+ */
 @RestController
 @RequestMapping("/course/admin")
 public class AdminCourseController {
@@ -28,8 +30,7 @@ public class AdminCourseController {
     private CourseService courseService;
 
     /**
-     * Create a new courses -- POST
-     *
+     * Create new courses -- POST
      * @param courses to create
      * @return created courses
      */
@@ -59,6 +60,7 @@ public class AdminCourseController {
     }
 
     /**
+     * Get all Courses -- GET
      * @param page        to start
      * @param size        of the page
      * @param direction   to sort
@@ -108,13 +110,6 @@ public class AdminCourseController {
                             throw new BadReqException("Can't convert { " + filterValue + " } to int");
                         }
                         break;
-//                    case "department":
-//                        try {
-//                            rv = this.courseService.getCoursesByDepartmentCode(Integer.parseInt(filterValue), page, size, direction, sort);
-//                        } catch (NumberFormatException e) {
-//                            throw new BadReqException("Can't convert { " + filterValue + " } to int");
-//                        }
-//                        break;
                     default:
                         throw new BadReqException("can't search by this type " + filterType);
                 }
@@ -129,8 +124,7 @@ public class AdminCourseController {
     }
 
     /**
-     * Edit specific course -- PUT
-     *
+     * Edit course details by course code -- PUT
      * @param code       course's code to change
      * @param courseEdit new course
      */
@@ -155,8 +149,7 @@ public class AdminCourseController {
     }
 
     /**
-     * Delete specific course -- DELETE
-     *
+     * Delete specific course by course code -- DELETE
      * @param code course's code to delete
      */
     @ApiOperation(
@@ -194,7 +187,7 @@ public class AdminCourseController {
     }
 
     /**
-     *
+     * Assign lecturer to course -- PATCH
      * @param code course code
      * @param id lecturer id
      */
@@ -215,7 +208,7 @@ public class AdminCourseController {
     }
 
     /**
-     *
+     * Remove lecturer from course -- DELETE
      * @param code course code
      * @param id lecturer id
      */

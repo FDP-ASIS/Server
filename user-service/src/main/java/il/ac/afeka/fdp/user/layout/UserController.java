@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
 
+/**
+ * User Controller methods
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -20,10 +23,10 @@ public class UserController {
     private UserService userService;
 
     /**
-     *
+     * Update user password by id -- PATCH
      * @param id user's id need to change password
      * @param passwordBoundary old password and new password
-     * @return user
+     * @return details of the user
      */
     @ApiOperation(value = "Update user password by id", nickname = "updateUserPassword")
     @ApiResponses(value = {

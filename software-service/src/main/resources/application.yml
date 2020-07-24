@@ -20,7 +20,7 @@ spring:
       enabled: ALWAYS
 
   profiles:
-    acrive:
+    active:
       - dev
 
   devtools:

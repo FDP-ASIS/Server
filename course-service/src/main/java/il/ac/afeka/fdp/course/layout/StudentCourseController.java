@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Student Course Controller methods
+ */
 @RestController
 @RequestMapping("/course")
 public class StudentCourseController {
@@ -27,33 +30,8 @@ public class StudentCourseController {
     @Autowired
     private CourseService courseService;
 
-//    /**
-//     * Get Course by course code -- GET
-//     *
-//     * @param code course's code to select
-//     * @return course
-//     */
-//    @ApiOperation(
-//            value = "Get course by its courseCode",
-//            notes = "Get this course from the database")
-//
-//    @ApiResponses(value = {
-//            @ApiResponse(code = HttpURLConnection.HTTP_OK, response = CourseBoundary.class, message = FinalStrings.OK),
-//            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
-//            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-//            @ApiResponse(code = HttpURLConnection.HTTP_FORBIDDEN, message = FinalStrings.FORBIDDEN),
-//            @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
-//            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)})
-//
-//    @GetMapping(
-//            path = "/{code}",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public CourseBoundary getCourseByCode(@PathVariable("code") long code) {
-//        return new CourseBoundary(this.courseService.getCourseByCode(code));
-//    }
-
     /**
-     *
+     * Assign STUDENT to course -- PATCH
      * @param code course code
      * @param id lecturer id
      */
@@ -74,7 +52,7 @@ public class StudentCourseController {
     }
 
     /**
-     *
+     * Remove STUDENT from course -- DELETE
      * @param code course code
      * @param id lecturer id
      */
@@ -95,6 +73,11 @@ public class StudentCourseController {
         this.courseService.remove(code,id, UserRole.STUDENT);
     }
 
+    /**
+     * Get student courses -- GET
+     * @param id student id
+     * @return list of student courses
+     */
     @ApiOperation(
             value = "Get student courses")
     @ApiResponses(value = {
@@ -113,6 +96,16 @@ public class StudentCourseController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get all courses -- GET
+     * @param direction ASC/DESC
+     * @param filterType type of filter to use
+     * @param page number of page
+     * @param size size in page
+     * @param sort sort by type
+     * @param filterValue value of the filter
+     * @return list of all courses
+     */
     @ApiOperation(
             value = "Get all courses")
     @ApiResponses(value = {

@@ -15,7 +15,6 @@ import java.util.List;
 public class CourseBoundary {
     private Long code;
     private String name;
-//    private DepartmentBoundary department;
     private List<User> students;
     private List<User> lecturers;
     private List<Software> software;
@@ -23,21 +22,16 @@ public class CourseBoundary {
     public CourseBoundary(CourseEntity courseEntity) {
         this.code = courseEntity.getCode();
         this.name = courseEntity.getName();
-//        this.department = new DepartmentBoundary(courseEntity.getDepartment());
         this.students = courseEntity.getStudents();
         this.lecturers = courseEntity.getLecturers();
         this.software = courseEntity.getSoftware();
     }
 
     public CourseEntity convertToEntity() {
-        return CourseEntity.of(code, name
-//                , department.convertToEntity()
-        );
+        return CourseEntity.of(code, name);
     }
 
     public CourseEntity convertToEntity(long code) {
-        return CourseEntity.of(code, name
-//                , department.convertToEntity()
-        );
+        return CourseEntity.of(code, name);
     }
 }

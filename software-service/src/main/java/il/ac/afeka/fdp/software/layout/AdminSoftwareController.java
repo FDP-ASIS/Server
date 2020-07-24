@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.HttpURLConnection;
 
+/**
+ * Admin Software Controller methods
+ */
 @RestController
 @RequestMapping("/software/admin")
 @Api(value = "Admin Software controller")
@@ -28,6 +31,14 @@ public class AdminSoftwareController {
     @Autowired
     Job jobProcess;
 
+    /**
+     * Get all software from the repository to the database -- GET
+     * @return save software details from repository to database
+     * @throws JobParametersInvalidException exception
+     * @throws JobExecutionAlreadyRunningException exception
+     * @throws JobRestartException exception
+     * @throws JobInstanceAlreadyCompleteException exception
+     */
     @ApiOperation(value = "Get all software from the repository to the database", nickname = "allSoftware")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
@@ -43,7 +54,6 @@ public class AdminSoftwareController {
         JobExecution jobExecution = jobLauncher.run(jobProcess, jobParameters);
 
         System.out.println("JobExecution: " + jobExecution.getStatus());
-
         System.out.println("Batch is Running...");
         while (jobExecution.isRunning()) {
             System.out.println("...");
@@ -51,55 +61,4 @@ public class AdminSoftwareController {
 
         return jobExecution.getStatus();
     }
-
-//
-//    @ApiOperation(value = "Get all the software in the system", nickname = "allSoftware")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
-//            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
-//            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-//            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
-//    })
-//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    String[] getAllSoftware(
-//            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-//            @RequestParam(value = "size", required = false, defaultValue = "10") int size,
-//            @RequestParam(value = "direction", required = false, defaultValue = "ASC") Sort.Direction direction) {
-//        return softwareService.getAllSoftware(page, size, direction).toArray(String[]::new);
-//    }
-//
-//
-//    @ApiOperation(value = "Get software's versions", nickname = "softwareVersions")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
-//            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
-//            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-//            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
-//    })
-//    @GetMapping(
-//            path = "/{name}",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    String[] getSoftwareVersions(
-//            @PathVariable(value = "name") String name,
-//            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-//            @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
-//        return softwareService.getSoftwareVersions(name, page, size).toArray(String[]::new);
-//    }
-//
-//    @ApiOperation(value = "Get script", nickname = "getScript")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
-//            @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
-//            @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
-//            @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
-//    })
-//    @GetMapping(
-//            path = "/{name}/{version}",
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    RepoData getSoftwareVersions(
-//            @PathVariable(value = "name") String name,
-//            @PathVariable(value = "version") String version,
-//            @RequestParam(value = "type") ScriptType type) {
-//        return new RepoData(null, softwareService.getScriptURL(name, version, type));
-//    }
 }

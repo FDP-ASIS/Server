@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
 
+/**
+ * Software Controller methods
+ */
 @RestController
 @RequestMapping("/software")
 @Api(value = "Software controller")
@@ -23,6 +26,10 @@ public class SoftwareController {
     @Autowired
     private SoftwareService softwareService;
 
+    /**
+     * Get all the names of the software from the database -- GET
+     * @return Array of names of the software
+     */
     @ApiOperation(value = "Get all the names of the software from the database", nickname = "allSoftware")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
@@ -35,8 +42,13 @@ public class SoftwareController {
         return softwareService.getAllSoftware().toArray(String[]::new);
     }
 
-
-    @ApiOperation(value = "Get all specific software versions", nickname = "softwareVersions")
+    /**
+     * Get all specific software versions -- GET
+     * @param name name of the software
+     * @return specific software versions by this name
+     */
+    @ApiOperation(value = "Get all specific software versions",
+                  nickname = "softwareVersions")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -52,7 +64,15 @@ public class SoftwareController {
         return softwareService.getSoftwareVersions(name).toArray(Software[]::new);
     }
 
-    @ApiOperation(value = "Get the download link of the software script", nickname = "getScript")
+    /**
+     * Get the download link of the software script -- GET
+     * @param name name of the software
+     * @param version version of the software
+     * @param type Installation/Deletion
+     * @return Url link to download the script file
+     */
+    @ApiOperation(value = "Get the download link of the software script",
+                  nickname = "getScript")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -70,6 +90,11 @@ public class SoftwareController {
         return new RepoData(null, softwareService.getScriptURL(name, version, type));
     }
 
+    /**
+     * Get software by its id -- GET
+     * @param id id of the software
+     * @return software details
+     */
     @ApiOperation(value = "Get software by its id")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),

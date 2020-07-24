@@ -18,5 +18,4 @@ public interface CourseCrud extends MongoRepository<CourseEntity, Long> {
 
     List<CourseEntity> findAllByStudents_Id(@Param("students_Id") String id);
 
-    //    List<CourseEntity> findAllByDepartmentCode(@Param("departmentCode") int code, PageRequest of);
 }

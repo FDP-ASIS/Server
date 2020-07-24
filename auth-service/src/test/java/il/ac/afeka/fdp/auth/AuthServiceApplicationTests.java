@@ -1,5 +1,6 @@
 package il.ac.afeka.fdp.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import il.ac.afeka.fdp.auth.data.Name;
 import il.ac.afeka.fdp.auth.data.UserWithToken;
@@ -93,7 +94,7 @@ class AuthServiceApplicationTests {
 	 * User login successfully to the system
 	 */
 	//@Test
-	public void getARegisteredUserFromTheServerSuccessfully() {
+	public void getARegisteredUserFromTheServerSuccessfully() throws JsonProcessingException {
 		String role="STUDENT";
 		UserBoundary user1= new UserBoundary();
 		user1.setEmail("user1@gmail.com");
@@ -122,7 +123,7 @@ class AuthServiceApplicationTests {
 		);
 
 
-		assertThat(response)
+		assertThat(jacksonMapper.writeValueAsString(response))
 				.isNotNull();
 	}
 }

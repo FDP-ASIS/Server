@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor(staticName = "of")
 @Document(collection = "COURSES")
 @Validated
-//@EntityListeners(AuditingEntityListener.class)
 public class CourseEntity {
     @Id
     @Size(min = 5, max = 5)
@@ -29,10 +28,6 @@ public class CourseEntity {
     @NonNull
     @NotBlank
     private String name;
-    //    @NonNull
-//    @DBRef
-//    @NotBlank
-//    private DepartmentEntity department;
     @DBRef
     private List<User> students; //= new ArrayList<>();
     @DBRef

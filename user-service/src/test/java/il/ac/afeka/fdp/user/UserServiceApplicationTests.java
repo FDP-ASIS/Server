@@ -207,7 +207,6 @@ class UserServiceApplicationTests {
 	}
 
 	private String encryptPassword(String password) {
-		// TODO change password encryption
 		return Base64.getEncoder().encodeToString(password.getBytes());
 	}
 }

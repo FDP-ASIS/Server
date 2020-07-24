@@ -6,7 +6,6 @@ import javax.validation.ConstraintValidatorContext;
 public class NumberValidator implements ConstraintValidator<ValidNumber, String> {
     @Override
     public void initialize(final ValidNumber constraintAnnotation) {
-        // nop
     }
 
     @Override

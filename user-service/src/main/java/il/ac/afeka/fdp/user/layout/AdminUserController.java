@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Admin User Controller methods
+ */
 @RestController
 @RequestMapping("/user/admin")
 @Api(value = "Admin user controller")
@@ -30,10 +33,12 @@ public class AdminUserController {
     private UserService userService;
 
     /**
-     * @param boundaries users
-     * @return saved users
+     * Register users -- POST
+     * @param boundaries list of users
+     * @return details of saved users in the system
      */
-    @ApiOperation(value = "Register users", notes = "Be careful with the query param", nickname = "register")
+    @ApiOperation(value = "Register users", notes = "Be careful with the query param",
+                  nickname = "register")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = FinalStrings.RESOURCE_CREATED),
             @ApiResponse(code = HttpURLConnection.HTTP_BAD_REQUEST, message = FinalStrings.BAD_REQUEST),
@@ -53,10 +58,13 @@ public class AdminUserController {
     }
 
     /**
-     * @param page      number of page
-     * @param size      page size
-     * @param direction direction
-     * @param sort      properties
+     * Get all users -- GET
+     * @param page        number of page
+     * @param size        page size
+     * @param direction   ASC/DESC
+     * @param sort        sort by type- properties
+     * @param filterType  type of filter to use
+     * @param filterValue value of the filter
      * @return list of users
      */
     @ApiOperation(value = "Get all users", notes = "default sort is id", nickname = "getAll")
@@ -97,10 +105,12 @@ public class AdminUserController {
     }
 
     /**
+     * Get user -- GET
      * @param id user's id want to get
-     * @return User
+     * @return details of the user
      */
-    @ApiOperation(value = "Get user", nickname = "getUser")
+    @ApiOperation(value = "Get specific user",
+                  nickname = "getUser")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_OK, message = FinalStrings.OK),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
@@ -115,7 +125,7 @@ public class AdminUserController {
     }
 
     /**
-     * delete all the users in the system
+     * Delete all users -- DELETE
      */
     @ApiOperation(value = "Delete all users", nickname = "deleteAllUsers")
     @ApiResponses(value = {
@@ -131,9 +141,10 @@ public class AdminUserController {
     }
 
     /**
+     * Delete a specific user -- DELETE
      * @param id user's id need to delete
      */
-    @ApiOperation(value = "Delete a user", nickname = "deleteUser")
+    @ApiOperation(value = "Delete a specific user", nickname = "deleteUser")
     @ApiResponses(value = {
             @ApiResponse(code = HttpURLConnection.HTTP_NO_CONTENT, message = FinalStrings.RESOURCE_DELETED),
             @ApiResponse(code = HttpURLConnection.HTTP_UNAUTHORIZED, message = FinalStrings.UNAUTHORIZED),
@@ -149,6 +160,7 @@ public class AdminUserController {
     }
 
     /**
+     * Update a user -- PUT
      * @param id           user's id need to update
      * @param userBoundary new user information that need to replace
      */
@@ -166,6 +178,5 @@ public class AdminUserController {
             @PathVariable(value = "id") String id,
             @RequestBody UserBoundary userBoundary) {
         this.userService.updateUserById(id, userBoundary.getId() != null ? userBoundary.convertToEntity() : userBoundary.convertToEntity(id));
-        //this.userService.updateUserById(userBoundary.convertToEntity(id));
     }
 }
