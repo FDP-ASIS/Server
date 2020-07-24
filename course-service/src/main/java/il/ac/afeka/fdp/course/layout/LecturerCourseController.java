@@ -65,7 +65,7 @@ public class LecturerCourseController {
             @ApiResponse(code = HttpURLConnection.HTTP_NOT_FOUND, message = FinalStrings.RESOURCE_NOT_FOUND),
             @ApiResponse(code = HttpURLConnection.HTTP_INTERNAL_ERROR, message = FinalStrings.SERVER_ERROR)
     })
-    @PatchMapping(value = "/{code}/{id}",
+    @PatchMapping(value = "/{code}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public CourseBoundary addSoftware(
