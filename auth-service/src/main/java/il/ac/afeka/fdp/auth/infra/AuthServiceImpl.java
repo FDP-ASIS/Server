@@ -51,7 +51,6 @@ public class AuthServiceImpl implements AuthService {
     @Logger
     @AuthPerformance
     public UserBoundary auth(Token token) {
-        // TODO implement the function
         return null;
     }
 
