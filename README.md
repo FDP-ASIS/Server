@@ -13,9 +13,9 @@ There is 6 mocroservices: <br />
    Handles all the requests and does the dynamic routing of microservice applications. 
    The server knows the routes instead of addressing them individually. The Zuul Server is also known as Edge Server. <br />
 **3. Auth-service:** <br />
-   * The authentication flow is simple:
-   * The user sends a request to get a token bypassing his credentials.
-   * The server validates the credentials and sends back a token. With every request, the user has to provide the token, and the server will validate that token. <br />
+    The authentication flow is simple: <br />
+    The user sends a request to get a token bypassing his credentials. <br />
+    The server validates the credentials and sends back a token. With every request, the user has to provide the token, and the server will validate that token. <br />
 **4. User-service:** <br />
    All operations that admin/lecturer/student can use and data about the user in the system. <br />
 **5. Course-service:** <br />
