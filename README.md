@@ -3,8 +3,9 @@ It was created for "Afeka College (Tel Aviv Academic College of Engineering)" wh
 courses a fully automated, non-contact process.
 This documentation is only for the server-side of the project. <br />
 
-**The project uses Spring boot** (open source Java-based framework) create a micro services. <br />
-There is 6 mocroservices: <br />
+**The project uses Gradle** (open-source build automation system which is used to automate building, testing, deployment) <br />
+**It also uses Spring boot** (open source Java-based framework) to create a micro services. <br />
+There is 6 microservices: <br />
 **1. Discovery-service:** <br />
    An application that holds information about all client-service applications. 
    Every Microservice will register into the Eureka server and the Eureka server knows all the client applications running 
