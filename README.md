@@ -1,11 +1,16 @@
-**Automatic Software Installation System** is a standard academic final degree project in software engineering. <br />
+# Automatic Software Installation System
+A standard academic final degree project in software engineering. <br />
 It was created for "Afeka College (Tel Aviv Academic College of Engineering)" which makes the software installation process in the various 
 courses a fully automated, non-contact process.
 This documentation is only for the server-side of the project. <br />
 
+### `Gradle` <br /> 
 **The project uses Gradle** (open-source build automation system which is used to automate building, testing, deployment) <br />
-**It also uses Spring boot** (open source Java-based framework) to create a micro services. <br />
-There is 6 microservices: <br />
+
+### `Spring Boot` <br /> 
+**The project uses Spring boot** (open source Java-based framework) to create a micro services. <br />
+
+### `Microservices` <br /> 
 **1. Discovery-service:** <br />
    An application that holds information about all client-service applications. 
    Every Microservice will register into the Eureka server and the Eureka server knows all the client applications running 
@@ -22,9 +27,20 @@ There is 6 microservices: <br />
 **5. Course-service:** <br />
    All operations that admin/lecturer/user can use. 
    This service stores data about the courses in the system. <br />
-**6. Software-servie:** <br />
+**6. Software-service:** <br />
    Software data saved in an external repository: https://github.com/FDP-ASIS/Repository/tree/master/scripts
    The user can get the software name and the versions. Also, he can get the script file for downloading the software to his personal computer. <br />
 
+### `Database` <br /> 
 **The database in the system is MongoDB** (cross-platform document-oriented database program. 
-Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas)
+Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas) <br />
+
+### `Want to know more about our project? We created a gitBook for you:` <br /> 
+[Detailed explanations about the server- GitBook Site](https://finalprojectafeka2020.gitbook.io/server/) <br />
+[Detailed explanations about the server- GitBook PDF](https://drive.google.com/file/d/1KhvZo3S6qh5FHMQAegJJIanBo6FCwoZr/view?usp=sharing) <br />
+
+[Detailed explanations about the scripts installation- GitBook Site](https://finalprojectafeka2020.gitbook.io/scripts/) <br />
+[Detailed explanations about the scripts installation- GitBook PDF](https://drive.google.com/file/d/1bRrcEOvXnZVlvdP-qri2C2gjpzorlAEa/view?usp=sharing) <br />
+
+### `Swagger API` <br /> 
+[SwaggerHub API Methods](https://app.swaggerhub.com/apis/Afeka2020/ASIS/1.0.0)
