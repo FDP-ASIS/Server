@@ -8,7 +8,7 @@ This documentation is only for the server-side of the project. <br />
 **The project uses Gradle** (open-source build automation system which is used to automate building, testing, deployment) <br />
 
 ### `Spring Boot` <br /> 
-**It also uses Spring boot** (open source Java-based framework) to create a micro services. <br />
+**The project uses Spring boot** (open source Java-based framework) to create a micro services. <br />
 
 ### `Microservices` <br /> 
 **1. Discovery-service:** <br />
@@ -42,4 +42,5 @@ Classified as a NoSQL database program, MongoDB uses JSON-like documents with op
 [Detailed explanations about the scripts installation- GitBook Site](https://finalprojectafeka2020.gitbook.io/scripts/) <br />
 [Detailed explanations about the scripts installation- GitBook PDF](https://drive.google.com/file/d/1bRrcEOvXnZVlvdP-qri2C2gjpzorlAEa/view?usp=sharing) <br />
 
+### `Swagger API` <br /> 
 [SwaggerHub API Methods](https://app.swaggerhub.com/apis/Afeka2020/ASIS/1.0.0)
